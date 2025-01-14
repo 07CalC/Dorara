@@ -3,15 +3,11 @@ import { Text, View } from 'react-native';
 
 export default function NotFoundScreen() {
   return (
-    <>
-      <Stack.Screen options={{ title: 'Oops!' }} />
-      <View className={styles.container}>
-        <Text className={styles.title}>This screen doesn't exist.</Text>
-        <Link href="/" className={styles.link}>
-          <Text className={styles.linkText}>Go to home screen!</Text>
-        </Link>
-      </View>
-    </>
+    
+  <View className="flex h-screen w-full flex-col items-center justify-center bg-[#0F0F0F] p-2">
+    <Text className="text-[#5f4dff] text-3xl">Page Not Found</Text>
+  </View>
+    
   );
 }
 

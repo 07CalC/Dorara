@@ -8,7 +8,11 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#0f0f0f",
+      "translucent": false
     },
     "plugins": ["expo-router"],
     "experiments": {
@@ -20,12 +24,12 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
 
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
 
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#0f0f0f"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -33,9 +37,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       }
-    }
+    },
+    "newArchEnabled": true
   }
 }

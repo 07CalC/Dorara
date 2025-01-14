@@ -1,22 +1,361 @@
-import { Stack } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { Modal, ScrollView, View } from 'react-native';
+import { useCalendarStrip } from '~/Hooks/useCalendarStrip';
+import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { useSQLiteContext } from 'expo-sqlite';
+import { Todo } from '~/lib/types';
+import { WeekDay } from '~/components/WeekDay';
+import { RenderTodo } from '~/components/Todo';
+import { AddTodoButton } from '~/components/AddTodoButton';
+import { NoDataFound } from '~/components/NoDataFound';
+import { AddTodoModal } from '~/components/AddTodoModal';
+import { ColorModal } from '~/components/ColorModal';
+import { EmojiModal } from '~/components/EmojiModal';
+import { CalendarModal } from '~/components/CalendarModal';
+import { RenderMonthYear } from '~/components/RenderMonthYear';
+import { EditTodoModal } from '~/components/EditTodoModal';
 
-import { ScreenContent } from '~/components/ScreenContent';
+export default function index() {
 
-export default function Home() {
+  
+  /*--------------------const Declaration--------------------*/
+  const db = useSQLiteContext();
+  const {
+    todayDate,
+    todayWeekNumber,
+    selectedDate,
+    setSelectedDate,
+    selectedWeek,
+    setSelectedWeek,
+    currentWeekDays,
+    currentMonth,
+    currentYear,
+  }: useCalendarStrip = useCalendarStrip();
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [calendarSelectedDate, setCalendarSelectedDate] = useState<number>(selectedDate);
+  const [todoData, setTodoData] = useState<any[]>([]);
+  const [showAddTodo, setShowAddTodo] = useState<boolean>(false);
+  const [showEmojiModal, setShowEmojiModal] = useState<boolean>(false);
+  const [todoTempEmoji, setTodoTempEmoji] = useState<string>('📌');
+  const [showColorModal, setShowColorModal] = useState<boolean>(false);
+  const [showEditTodo, setShowEditTodo] = useState<boolean>(false);
+  const [todo, setTodo] = useState<Todo>({
+    id: 0,
+    title: '',
+    complete: 0,
+    type: 'tick',
+    time: 3600000,
+    timeCompleted: 0,
+    maxIncreament: 1,
+    increamentCompleted: 0,
+    emoji: '📌',
+    bgColor: '#5f4dff',
+    date: selectedDate,
+  });
+
+  /*--------------------db Functions--------------------*/
+  const getTodoByDate = async (date: number) => {
+    const todoFetched = await db.getAllAsync(
+      'SELECT * FROM todo WHERE date = ? ORDER BY complete ASC, type DESC',
+      [date]
+    );
+    setTodoData(todoFetched);
+  };
+
+  const updateChecked = async (item: Todo) => {
+    if (!item.complete) {
+      try {
+        await db.runAsync(`UPDATE todo SET complete = 1 WHERE id = ?`, [item.id]);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    if (item.complete) {
+      try {
+        await db.runAsync(`UPDATE todo SET complete = 0 WHERE id = ?`, [item.id]);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    await getTodoByDate(selectedDate);
+  };
+
+  const updateIncreament = async (item: Todo) => {
+    if (item.complete) {
+      try {
+        await db.runAsync(`UPDATE todo SET complete = 0, increamentCompleted = 0 WHERE id = ?`, [
+          item.id,
+        ]);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      if (item.increamentCompleted >= item.maxIncreament - 1) {
+        try {
+          await db.runAsync(`UPDATE todo SET complete = 1, increamentCompleted = ? WHERE id = ?`, [
+            item.increamentCompleted + 1,
+            item.id,
+          ]);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        try {
+          await db.runAsync(`UPDATE todo SET increamentCompleted = ? WHERE id = ?`, [
+            item.increamentCompleted + 1,
+            item.id,
+          ]);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+    await getTodoByDate(selectedDate);
+  };
+
+  const deleteTodo = async (id: number) => {
+    try {
+      await db.runAsync(`DELETE FROM todo WHERE id = ?`, [id]);
+    } catch (error) {
+      console.log(error);
+    }
+    getTodoByDate(selectedDate);
+  };
+
+  const updateTodo = async (id: number) => {
+    try {
+      await db.runAsync(
+        `UPDATE todo SET 
+      title = ?,
+      complete = ?,
+      type = ?,
+      time = ?,
+      timeCompleted = ?,
+      maxIncreament = ?,
+      increamentCompleted = ?,
+      emoji = ?,
+      bgColor = ?,
+      date = ?
+      WHERE id = ?`,
+        [
+          todo.title,
+          todo.complete,
+          todo.type,
+          todo.time,
+          todo.timeCompleted,
+          todo.maxIncreament,
+          todo.increamentCompleted,
+          todo.emoji,
+          todo.bgColor,
+          todo.date,
+          id,
+        ]
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    getTodoByDate(selectedDate);
+  };
+
+  const insertTodo = async () => {
+    try {
+      await db.runAsync(`INSERT INTO todo (
+      title,
+      complete,
+      type,
+      time,
+      timeCompleted,
+      maxIncreament,
+      increamentCompleted,
+      emoji,
+      bgColor,
+      date
+    ) VALUES (
+      "${todo.title}",
+      ${todo.complete},
+      "${todo.type}",
+      ${todo.time},
+      ${todo.timeCompleted},
+      ${todo.maxIncreament},
+      ${todo.increamentCompleted},
+      "${todo.emoji}",
+      "${todo.bgColor}",
+      ${todo.date}
+    )`);
+    } catch (error) {
+      console.log(error);
+    }
+
+    await getTodoByDate(selectedDate);
+    setShowAddTodo(false);
+  };
+
+  /*--------------------date Functions--------------------*/
+  const handleDatePrev = () => {
+    setSelectedDate(selectedDate - 86400000);
+    setSelectedWeek(moment(selectedDate).isoWeek());
+    if (new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(selectedDate) === 'Mon') {
+      setSelectedWeek(selectedWeek - 1);
+    }
+  };
+  const handleDateNext = () => {
+    setSelectedDate(selectedDate + 86400000);
+    moment(selectedDate).isoWeek();
+    if (new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(selectedDate) === 'Sun') {
+      setSelectedWeek(selectedWeek + 1);
+    }
+  };
+
+  /*--------------------useEffect--------------------*/
+  useEffect(() => {
+    getTodoByDate(selectedDate);
+  }, [selectedDate]);
+
   return (
-    <>
-      <Stack.Screen options={{ title: 'Tab One' }} />
-      <View style={styles.container}>
-        <ScreenContent path="app/(tabs)/index.tsx" title="Tab One" />
+    <View className="flex h-screen w-full flex-col items-center justify-center bg-[#0F0F0F] p-2">
+      <RenderMonthYear
+        setShowCalendar={setShowCalendar}
+        currentMonth={currentMonth}
+        currentYear={parseInt(currentYear)}
+        selectedDate={selectedDate}
+        todayDate={todayDate}
+        setSelectedDate={setSelectedDate}
+        setSelectedWeek={setSelectedWeek}
+        todayWeekNumber={todayWeekNumber}
+      />
+      <Modal
+        animationType="fade"
+        visible={showCalendar}
+        transparent={true}
+        onRequestClose={() => setShowCalendar(false)}>
+        <CalendarModal
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          setSelectedWeek={setSelectedWeek}
+          calendarSelectedDate={calendarSelectedDate}
+          setCalendarSelectedDate={setCalendarSelectedDate}
+          setShowCalendar={setShowCalendar}
+        />
+      </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showEmojiModal}
+        onRequestClose={() => setShowEmojiModal(false)}
+        className="flex h-full w-full flex-col items-center justify-center bg-[#0F0F0F50]">
+        <EmojiModal
+          todoTempEmoji={todoTempEmoji}
+          setTodoTempEmoji={setTodoTempEmoji}
+          setShowEmojiModal={setShowEmojiModal}
+          todo={todo}
+          setTodo={setTodo}
+        />
+      </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showColorModal}
+        onRequestClose={() => setShowColorModal(false)}
+        className="flex h-full w-full flex-col items-center justify-center bg-[#0F0F0F50]">
+        <ColorModal todo={todo} setTodo={setTodo} setShowColorModal={setShowColorModal} />
+      </Modal>
+      <Modal
+        animationType="slide"
+        visible={showAddTodo}
+        onRequestClose={() => setShowAddTodo(false)}
+        style={{ backgroundColor: '#0f0f0f' }}
+        className="flex h-full w-full flex-col items-center justify-center bg-[#0F0F0F50]">
+        <AddTodoModal
+          setTodoTempEmoji={setTodoTempEmoji}
+          setShowAddTodo={setShowAddTodo}
+          setShowColorModal={setShowColorModal}
+          setShowEmojiModal={setShowEmojiModal}
+          insertTodo={insertTodo}
+          todo={todo}
+          setTodo={setTodo}
+          selectedDate={selectedDate}
+        />
+      </Modal>
+      <Modal
+        animationType="slide"
+        visible={showEditTodo}
+        onRequestClose={() => setShowEditTodo(false)}
+        style={{ backgroundColor: '#0f0f0f' }}
+        className="flex h-full w-full flex-col items-center justify-center bg-[#0F0F0F50]">
+        <EditTodoModal
+          setTodoTempEmoji={setTodoTempEmoji}
+          setShowColorModal={setShowColorModal}
+          setShowEmojiModal={setShowEmojiModal}
+          setShowEditTodo={setShowEditTodo}
+          todo={todo}
+          setTodo={setTodo}
+          deleteTodo={deleteTodo}
+          selectedDate={selectedDate}
+          updateTodo={updateTodo}
+        />
+      </Modal>
+
+      <View className="flex h-[13%] items-center justify-center">
+        <ScrollView
+          stickyHeaderHiddenOnScroll
+          showsHorizontalScrollIndicator={false}
+          onMomentumScrollEnd={(e) => {
+            if (e.nativeEvent.contentOffset.x > 0) {
+              setSelectedWeek(selectedWeek + 1);
+            } else if (e.nativeEvent.contentOffset.x < 0) {
+              setSelectedWeek(selectedWeek - 1);
+            }
+          }}
+          className=" flex h-[15%] flex-row"
+          horizontal={true}>
+          <View className="w-max-screen mt-2 flex flex-row items-center justify-center px-[0.05rem]">
+            {currentWeekDays.map((day, index) => {
+              return (
+                <WeekDay
+                  key={index}
+                  day={day}
+                  index={index}
+                  selectedDate={selectedDate}
+                  setSelectedDate={setSelectedDate}
+                />
+              );
+            })}
+          </View>
+        </ScrollView>
       </View>
-    </>
+      <View className="h-[77%] pb-2">
+        <ScrollView
+          showsHorizontalScrollIndicator
+          horizontal={true}
+          className="h-full w-screen"
+          onMomentumScrollEnd={(e) => {
+            if (e.nativeEvent.contentOffset.x > 0) {
+              handleDateNext();
+            } else if (e.nativeEvent.contentOffset.x < 0) {
+              handleDatePrev();
+            }
+          }}>
+          <View className="mt-2 flex  flex-row px-[0.01rem]">
+            <ScrollView bounces={true} showsVerticalScrollIndicator className="w-screen px-2">
+              {todoData.length === 0 && <NoDataFound />}
+
+              {todoData.map((item: Todo, index) => (
+                <RenderTodo
+                  key={index}
+                  item={item}
+                  index={index}
+                  setShowEditTodo={setShowEditTodo}
+                  updateChecked={updateChecked}
+                  updateIncreament={updateIncreament}
+                  setTodo={setTodo}
+                />
+              ))}
+            </ScrollView>
+          </View>
+        </ScrollView>
+      </View>
+
+      <AddTodoButton setShowAddTodo={setShowAddTodo} selectedDate={selectedDate} />
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-  },
-});

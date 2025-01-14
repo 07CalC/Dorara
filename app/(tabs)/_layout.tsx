@@ -1,31 +1,77 @@
-import { Link, Tabs } from 'expo-router';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Tabs } from 'expo-router';
 
-import { HeaderButton } from '../../components/HeaderButton';
-import { TabBarIcon } from '../../components/TabBarIcon';
-
-export default function TabLayout() {
+export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: 'black',
+        headerShown: false,
+        tabBarActiveTintColor: '#5f4dff',
+        tabBarInactiveTintColor: '#9f9f9f',
+        tabBarStyle: {
+          backgroundColor: '#1e1e1e',
+          height: 55,
+          borderTopWidth: 0,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          borderBottomLeftRadius: 20,
+          borderBottomRightRadius: 20,
+        },
+        tabBarHideOnKeyboard: true,
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <HeaderButton />
-            </Link>
-          ),
+          title: 'Todo',
+          tabBarIcon: ({ color }) => <FontAwesome size={25} name="list" color={color} />,
+          tabBarLabelStyle: {
+            fontSize: 12,
+            fontWeight: 'semibold',
+          },
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="notes"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Notes',
+          tabBarIcon: ({ color }) => <FontAwesome size={25} name="sticky-note" color={color} />,
+          tabBarLabelStyle: {
+            fontSize: 12,
+            fontWeight: 'semibold',
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="calendar"
+        options={{
+          title: 'Calendar',
+          tabBarIcon: ({ color }) => <FontAwesome size={25} name="calendar" color={color} />,
+          tabBarLabelStyle: {
+            fontSize: 12,
+            fontWeight: 'semibold',
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="habits"
+        options={{
+          title: 'Habits',
+          tabBarIcon: ({ color }) => <FontAwesome size={25} name="bar-chart" color={color} />,
+          tabBarLabelStyle: {
+            fontSize: 12,
+            fontWeight: 'semibold',
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="journal"
+        options={{
+          title: 'Journal',
+          tabBarIcon: ({ color }) => <FontAwesome size={25} name="book" color={color} />,
+          tabBarLabelStyle: {
+            fontSize: 12,
+            fontWeight: 'semibold',
+          },
         }}
       />
     </Tabs>

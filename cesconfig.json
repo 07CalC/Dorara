@@ -12,10 +12,6 @@
     {
       "name": "nativewind",
       "type": "styling"
-    },
-    {
-      "name": "zustand",
-      "type": "state-management"
     }
   ],
   "flags": {
