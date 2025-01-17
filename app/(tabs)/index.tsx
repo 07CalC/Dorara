@@ -16,8 +16,6 @@ import { RenderMonthYear } from '~/components/RenderMonthYear';
 import { EditTodoModal } from '~/components/EditTodoModal';
 
 export default function index() {
-
-  
   /*--------------------const Declaration--------------------*/
   const db = useSQLiteContext();
   const {
@@ -33,7 +31,7 @@ export default function index() {
   }: useCalendarStrip = useCalendarStrip();
   const [showCalendar, setShowCalendar] = useState(false);
   const [calendarSelectedDate, setCalendarSelectedDate] = useState<number>(selectedDate);
-  const [todoData, setTodoData] = useState<any[]>([]);
+  const [todoData, setTodoData] = useState<Todo[]>([]);
   const [showAddTodo, setShowAddTodo] = useState<boolean>(false);
   const [showEmojiModal, setShowEmojiModal] = useState<boolean>(false);
   const [todoTempEmoji, setTodoTempEmoji] = useState<string>('📌');
@@ -53,9 +51,14 @@ export default function index() {
     date: selectedDate,
   });
 
+
+  const setColor = (color: string) => {
+    setTodo({ ...todo, bgColor: color });
+  };
+
   /*--------------------db Functions--------------------*/
   const getTodoByDate = async (date: number) => {
-    const todoFetched = await db.getAllAsync(
+    const todoFetched: Todo[] = await db.getAllAsync(
       'SELECT * FROM todo WHERE date = ? ORDER BY complete ASC, type DESC',
       [date]
     );
@@ -211,6 +214,7 @@ export default function index() {
     getTodoByDate(selectedDate);
   }, [selectedDate]);
 
+
   return (
     <View className="flex h-screen w-full flex-col items-center justify-center bg-[#0F0F0F] p-2">
       <RenderMonthYear
@@ -257,11 +261,27 @@ export default function index() {
         visible={showColorModal}
         onRequestClose={() => setShowColorModal(false)}
         className="flex h-full w-full flex-col items-center justify-center bg-[#0F0F0F50]">
-        <ColorModal todo={todo} setTodo={setTodo} setShowColorModal={setShowColorModal} />
+        <ColorModal setColor={setColor} setShowColorModal={setShowColorModal} />
       </Modal>
       <Modal
         animationType="slide"
         visible={showAddTodo}
+        onDismiss={() =>{
+          setTodo({
+            id: 0,
+            title: '',
+            complete: 0,
+            type: 'tick',
+            time: 3600000,
+            timeCompleted: 0,
+            maxIncreament: 1,
+            increamentCompleted: 0,
+            emoji: '📌',
+            bgColor: '#5f4dff',
+            date: selectedDate,
+          })
+        }
+        }
         onRequestClose={() => setShowAddTodo(false)}
         style={{ backgroundColor: '#0f0f0f' }}
         className="flex h-full w-full flex-col items-center justify-center bg-[#0F0F0F50]">
@@ -280,6 +300,21 @@ export default function index() {
         animationType="slide"
         visible={showEditTodo}
         onRequestClose={() => setShowEditTodo(false)}
+        onDismiss={() =>
+          setTodo({
+            id: 0,
+            title: '',
+            complete: 0,
+            type: 'tick',
+            time: 3600000,
+            timeCompleted: 0,
+            maxIncreament: 1,
+            increamentCompleted: 0,
+            emoji: '📌',
+            bgColor: '#5f4dff',
+            date: selectedDate,
+          })
+        }
         style={{ backgroundColor: '#0f0f0f' }}
         className="flex h-full w-full flex-col items-center justify-center bg-[#0F0F0F50]">
         <EditTodoModal

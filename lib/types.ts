@@ -1,7 +1,6 @@
 
 
-
-export type Todo ={
+export type Todo = {
     id: number,
     title: string,
     complete: number,
@@ -13,4 +12,15 @@ export type Todo ={
     emoji: string,
     bgColor: string,
     date: number
+}
+
+
+export type Note = {
+    id: number,
+    title: string,
+    content: string,
+    plainText: string,
+    date: number,
+    tag?: string,
+    color: string
 }

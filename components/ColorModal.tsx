@@ -1,19 +1,17 @@
 import React from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
 import { colorPallete } from "~/lib/colorPallete";
-import { Todo } from "~/lib/types";
 
 
 
 type props ={
-  setTodo: (todo: Todo) => void,
-  todo: Todo,
-  setShowColorModal: React.Dispatch<React.SetStateAction<boolean>>
+  setShowColorModal: React.Dispatch<React.SetStateAction<boolean>>,
+  setColor: (color: string) => void
 }
 
 
 
-export const ColorModal = ({setTodo, todo, setShowColorModal}: props) => {
+export const ColorModal = ({ setShowColorModal, setColor}: props) => {
     return(
         <View className="flex h-full w-full flex-col items-center justify-center self-center bg-transparent">
                   <View className="h-9/12 flex w-11/12 flex-col items-center justify-center gap-y-3 rounded-2xl bg-[#1A222D] p-4">
@@ -25,7 +23,7 @@ export const ColorModal = ({setTodo, todo, setShowColorModal}: props) => {
                         <TouchableOpacity
                           key={index}
                           onPress={() => {
-                            setTodo({...todo, bgColor: item.color});
+                            setColor(item.color)
                             setShowColorModal(false);
                           }}
                           className="flex flex-row items-center justify-center gap-x-2">

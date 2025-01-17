@@ -47,6 +47,7 @@ export const EditTodoModal = ({
               bgColor: '#5f4dff',
               date: selectedDate,
             });
+            setShowEditTodo(false);
           }}
           className="flex items-center justify-center">
           <FontAwesome
