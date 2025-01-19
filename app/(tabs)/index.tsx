@@ -217,6 +217,8 @@ export default function index() {
     getTodoByDate(selectedDate);
   }, [selectedDate]);
 
+
+  // bug fixed selected todo.date was not changing automatically 
   useEffect(() => {
     setTodo({ ...todo, date: selectedDate });
   },[selectedDate])
