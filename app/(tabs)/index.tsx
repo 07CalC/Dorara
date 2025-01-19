@@ -65,6 +65,9 @@ export default function index() {
     setTodoData(todoFetched);
   };
 
+
+  // console.log(moment(selectedDate).format('YYYY-MM-DD'));
+  // console.log(todo)
   const updateChecked = async (item: Todo) => {
     if (!item.complete) {
       try {
@@ -214,6 +217,9 @@ export default function index() {
     getTodoByDate(selectedDate);
   }, [selectedDate]);
 
+  useEffect(() => {
+    setTodo({ ...todo, date: selectedDate });
+  },[selectedDate])
 
   return (
     <View className="flex h-screen w-full flex-col items-center justify-center bg-[#0F0F0F] p-2">
