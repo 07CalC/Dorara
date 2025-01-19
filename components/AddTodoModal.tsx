@@ -162,7 +162,7 @@ export const AddTodoModal = ({
           setShowAddTodo(false);
           setTodoTempEmoji('📌');
         }}
-        className={`bottom-0 flex w-11/12 items-center justify-center self-center rounded-2xl bg-[${todo.bgColor}] p-4 px-8`}
+        className={`bottom-0  flex w-11/12 items-center justify-center self-center rounded-2xl bg-[${todo.bgColor}] p-4 px-8`}
         style={{ backgroundColor: todo.bgColor }}>
         <Text className="text-2xl  font-semibold text-[#0f0f0f]">Add</Text>
       </TouchableOpacity>

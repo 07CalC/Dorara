@@ -7,15 +7,12 @@ export default function TabsLayout() {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: '#5f4dff',
-        tabBarInactiveTintColor: '#9f9f9f',
+        tabBarInactiveTintColor: '#7F7F7F',
         tabBarStyle: {
-          backgroundColor: '#1e1e1e',
+          backgroundColor: '#0F0F0F',
           height: 55,
-          borderTopWidth: 0,
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-          borderBottomLeftRadius: 20,
-          borderBottomRightRadius: 20,
+          borderTopWidth: 1,
+          borderColor: '#5f4dff',
         },
         tabBarHideOnKeyboard: true,
       }}>

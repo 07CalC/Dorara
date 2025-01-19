@@ -360,7 +360,6 @@ export default function index() {
       </View>
       <View className="h-[77%] pb-2">
         <ScrollView
-          showsHorizontalScrollIndicator
           horizontal={true}
           className="h-full w-screen"
           onMomentumScrollEnd={(e) => {
@@ -370,8 +369,8 @@ export default function index() {
               handleDatePrev();
             }
           }}>
-          <View className="mt-2 flex  flex-row px-[0.01rem]">
-            <ScrollView bounces={true} showsVerticalScrollIndicator className="w-screen px-2">
+          <View className="mt-2 flex h-full pb-2 flex-row px-[0.01rem]">
+            <ScrollView bounces={true} showsVerticalScrollIndicator className="w-screen h-full px-2">
               {todoData.length === 0 && <NoDataFound />}
 
               {todoData.map((item: Todo, index) => (

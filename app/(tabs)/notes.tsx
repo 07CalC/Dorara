@@ -178,7 +178,7 @@ export default function notes() {
       </Modal>
 
       <View className="flex h-[8%] w-11/12 flex-row items-center justify-center">
-        <View className="flex h-2/3 w-full flex-row items-center gap-x-2 rounded-full border border-[#9ca3af] bg-[#1e1e1e] p-1 px-4 placeholder:font-bold">
+        <View className="flex h-2/3 w-full flex-row items-center gap-x-2 rounded-full border border-[#5f4dff] bg-[#1e1e1e] p-1 px-4 placeholder:font-bold">
           <FontAwesome name="search" size={20} className="w-[5%]" color={'#9ca3af'} />
           <TextInput
             value={query}

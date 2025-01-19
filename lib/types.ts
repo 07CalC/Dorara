@@ -24,3 +24,9 @@ export type Note = {
     tag?: string,
     color: string
 }
+
+export type Journal = {
+    id: number,
+    content: string,
+    date: number
+}
