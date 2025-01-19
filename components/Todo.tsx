@@ -1,8 +1,7 @@
 import { FontAwesome } from '@expo/vector-icons';
-import { Button, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { parseMillisecondsIntoReadableTime } from '~/lib/helper';
 import { Todo } from '~/lib/types';
-
 
 type props = {
   item: Todo;
@@ -11,9 +10,7 @@ type props = {
   updateIncreament: (item: Todo) => void;
   setShowEditTodo: React.Dispatch<React.SetStateAction<boolean>>;
   setTodo: React.Dispatch<React.SetStateAction<Todo>>;
-}
-
-
+};
 
 export const RenderTodo = ({
   item,

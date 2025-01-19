@@ -1,18 +1,15 @@
 import { Text, TouchableOpacity, View } from 'react-native';
 
-
 type props = {
   day: {
     day: string;
     date: number;
-    milisecond: number
-  },
-  index: number,
-  setSelectedDate: React.Dispatch<React.SetStateAction<number>>
-  selectedDate: number
-}
-
-
+    milisecond: number;
+  };
+  index: number;
+  setSelectedDate: React.Dispatch<React.SetStateAction<number>>;
+  selectedDate: number;
+};
 
 export const WeekDay = ({ day, index, setSelectedDate, selectedDate }: props) => {
   return (

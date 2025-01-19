@@ -3,7 +3,6 @@ import { Text, TextInput, TouchableOpacity } from 'react-native';
 import { View } from 'react-native';
 import { Todo } from '~/lib/types';
 
-
 type props = {
   setTodoTempEmoji: React.Dispatch<React.SetStateAction<string>>;
   setShowColorModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,8 +13,7 @@ type props = {
   deleteTodo: (id: number) => void;
   selectedDate: number;
   updateTodo: (id: number) => void;
-}
-
+};
 
 export const EditTodoModal = ({
   setTodoTempEmoji,

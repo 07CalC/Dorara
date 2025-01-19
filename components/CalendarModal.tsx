@@ -4,16 +4,14 @@ import { Text } from 'react-native';
 import { TouchableOpacity, View } from 'react-native';
 import { Calendar, CalendarProvider, DateData } from 'react-native-calendars';
 
-
-type props ={
-  selectedDate: number,
-  setCalendarSelectedDate: React.Dispatch<React.SetStateAction<number>>,
-  calendarSelectedDate: number,
-  setShowCalendar: React.Dispatch<React.SetStateAction<boolean>>,
-  setSelectedDate: React.Dispatch<React.SetStateAction<number>>,
-  setSelectedWeek: React.Dispatch<React.SetStateAction<number>>
-}
-
+type props = {
+  selectedDate: number;
+  setCalendarSelectedDate: React.Dispatch<React.SetStateAction<number>>;
+  calendarSelectedDate: number;
+  setShowCalendar: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedDate: React.Dispatch<React.SetStateAction<number>>;
+  setSelectedWeek: React.Dispatch<React.SetStateAction<number>>;
+};
 
 export const CalendarModal = ({
   selectedDate,

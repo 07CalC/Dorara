@@ -2,17 +2,13 @@ import { Text, TextInput, TouchableOpacity } from 'react-native';
 import { View } from 'react-native';
 import { Todo } from '~/lib/types';
 
-
-
 type props = {
   todoTempEmoji: string;
   setTodoTempEmoji: React.Dispatch<React.SetStateAction<string>>;
   setShowEmojiModal: React.Dispatch<React.SetStateAction<boolean>>;
   todo: Todo;
   setTodo: React.Dispatch<React.SetStateAction<Todo>>;
-}
-
-
+};
 
 export const EmojiModal = ({
   todoTempEmoji,

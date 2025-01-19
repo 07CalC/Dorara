@@ -2,8 +2,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Text, TextInput, TouchableOpacity } from 'react-native';
 import { View } from 'react-native';
 
-
-type props={
+type props = {
   setTodoTempEmoji: React.Dispatch<React.SetStateAction<string>>;
   setShowAddTodo: React.Dispatch<React.SetStateAction<boolean>>;
   setShowColorModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,9 +10,8 @@ type props={
   insertTodo: () => void;
   todo: any;
   setTodo: React.Dispatch<React.SetStateAction<any>>;
-  selectedDate: number
-}
-
+  selectedDate: number;
+};
 
 export const AddTodoModal = ({
   setTodoTempEmoji,
@@ -23,7 +21,7 @@ export const AddTodoModal = ({
   insertTodo,
   todo,
   setTodo,
-  selectedDate
+  selectedDate,
 }: props) => {
   return (
     <View className="flex h-full flex-col gap-y-5 bg-[#0f0f0f] py-5">
@@ -60,7 +58,7 @@ export const AddTodoModal = ({
       <TextInput
         className={`my-2 rounded-md border-b-2 px-5 py-5 text-3xl font-semibold text-white placeholder:font-semibold placeholder:text-gray-500`}
         placeholder="Title"
-        onChangeText={(text: string) => setTodo({...todo, title: text})}
+        onChangeText={(text: string) => setTodo({ ...todo, title: text })}
         value={todo.title}
         style={{ borderColor: todo.bgColor }}
       />
@@ -68,7 +66,7 @@ export const AddTodoModal = ({
         <Text className="px-5 text-2xl font-semibold text-gray-200">Type</Text>
         <View className="flex flex-row justify-center gap-x-10 px-2">
           <TouchableOpacity
-            onPress={() => setTodo({...todo, type: 'tick'})}
+            onPress={() => setTodo({ ...todo, type: 'tick' })}
             className={`flex flex-col items-center justify-center rounded-2xl px-10 py-5 ${todo.type === 'tick' ? 'bg-[#1a222d]' : 'bg-[#0f0f0f]'} gap-y-3`}>
             <FontAwesome
               name="check-circle"
@@ -78,7 +76,7 @@ export const AddTodoModal = ({
             <Text className="text-center text-xl font-semibold text-gray-400">Task</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => setTodo({...todo, type: 'increament'})}
+            onPress={() => setTodo({ ...todo, type: 'increament' })}
             className={`flex flex-col items-center justify-center rounded-2xl px-8 py-5 ${todo.type === 'increament' ? 'bg-[#1a222d]' : 'bg-[#0f0f0f]'} gap-y-3`}>
             <FontAwesome
               name="arrow-up"
@@ -103,7 +101,7 @@ export const AddTodoModal = ({
             <Text className="text-2xl font-semibold text-gray-200">Amount</Text>
             <View className="flex flex-row items-center justify-center gap-x-8">
               <TouchableOpacity
-                onPress={() => setTodo({...todo, maxIncreament: todo.maxIncreament -1})}
+                onPress={() => setTodo({ ...todo, maxIncreament: todo.maxIncreament - 1 })}
                 style={{ backgroundColor: todo.bgColor }}
                 className={`flex items-center justify-center rounded-2xl p-4 px-8`}>
                 <FontAwesome name="minus" size={30} style={{ color: '#0f0f0f' }} />
@@ -112,7 +110,7 @@ export const AddTodoModal = ({
                 {todo.maxIncreament}
               </Text>
               <TouchableOpacity
-                onPress={() => setTodo({...todo, maxIncreament: todo.maxIncreament +1})}
+                onPress={() => setTodo({ ...todo, maxIncreament: todo.maxIncreament + 1 })}
                 style={{ backgroundColor: todo.bgColor }}
                 className={`flex items-center justify-center rounded-2xl p-4 px-8 bg-[${todo.bgColor}]`}>
                 <FontAwesome name="plus" size={30} style={{ color: '#0f0f0f' }} />

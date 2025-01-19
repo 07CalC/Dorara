@@ -9,13 +9,7 @@ type props = {
   setTempTag: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export const TagEditorModal = ({
-  setTag,
-  setShowTagEditorModal,
-  tag,
-  tempTag,
-  setTempTag,
-}: props) => {
+export const TagEditorModal = ({ setTag, setShowTagEditorModal, tempTag, setTempTag }: props) => {
   return (
     <View className="flex h-full w-full flex-col items-center justify-center self-center ">
       <View className="flex h-40 w-80 flex-col items-center justify-center gap-y-3 rounded-2xl bg-[#1A222D] p-4">

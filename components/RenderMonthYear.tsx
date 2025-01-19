@@ -3,8 +3,6 @@ import { Text } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { View } from 'react-native';
 
-
-
 type props = {
   setShowCalendar: React.Dispatch<React.SetStateAction<boolean>>;
   currentMonth: string;
@@ -14,9 +12,7 @@ type props = {
   setSelectedDate: React.Dispatch<React.SetStateAction<number>>;
   setSelectedWeek: React.Dispatch<React.SetStateAction<number>>;
   todayWeekNumber: number;
-}
-
-
+};
 
 export const RenderMonthYear = ({
   setShowCalendar,

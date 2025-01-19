@@ -1,16 +1,9 @@
-
 import { FontAwesome } from '@expo/vector-icons';
 import { useSQLiteContext } from 'expo-sqlite';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { StyleSheet, TextInput } from 'react-native';
-import {
-  KeyboardAvoidingView,
-  Modal,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { TextInput } from 'react-native';
+import { KeyboardAvoidingView, Modal, Text, TouchableOpacity, View } from 'react-native';
 import { CalendarModal } from '~/components/CalendarModal';
 import { Journal } from '~/lib/types';
 
@@ -29,7 +22,6 @@ export default function journal() {
     content: '',
     date: 0,
   });
-
 
   /*--------------------db functions--------------------*/
   const insertJournal = async () => {
@@ -60,7 +52,6 @@ export default function journal() {
       console.log(error);
     }
   };
-
 
   /*--------------------useEffect--------------------*/
   useEffect(() => {
@@ -119,5 +110,3 @@ export default function journal() {
     </View>
   );
 }
-
-
