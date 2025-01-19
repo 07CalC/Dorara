@@ -220,7 +220,7 @@ export default function index() {
       <RenderMonthYear
         setShowCalendar={setShowCalendar}
         currentMonth={currentMonth}
-        currentYear={parseInt(currentYear)}
+        currentYear={currentYear}
         selectedDate={selectedDate}
         todayDate={todayDate}
         setSelectedDate={setSelectedDate}
