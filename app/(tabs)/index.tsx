@@ -1,4 +1,9 @@
-import { Modal, ScrollView, View } from 'react-native';
+import { Dimensions, Modal, ScrollView, View } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
 import { useCalendarStrip } from '~/Hooks/useCalendarStrip';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
@@ -14,6 +19,7 @@ import { EmojiModal } from '~/components/EmojiModal';
 import { CalendarModal } from '~/components/CalendarModal';
 import { RenderMonthYear } from '~/components/RenderMonthYear';
 import { EditTodoModal } from '~/components/EditTodoModal';
+import { Portal } from 'react-native-paper';
 
 export default function index() {
   /*--------------------const Declaration--------------------*/
@@ -50,7 +56,10 @@ export default function index() {
     bgColor: '#5f4dff',
     date: selectedDate,
   });
-
+  const translateX = useSharedValue(0);
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: translateX.value }],
+  }));
 
   const setColor = (color: string) => {
     setTodo({ ...todo, bgColor: color });
@@ -64,7 +73,6 @@ export default function index() {
     );
     setTodoData(todoFetched);
   };
-
 
   // console.log(moment(selectedDate).format('YYYY-MM-DD'));
   // console.log(todo)
@@ -196,6 +204,8 @@ export default function index() {
     setShowAddTodo(false);
   };
 
+  const SCREEN_WIDTH = Dimensions.get('window').width;
+
   /*--------------------date Functions--------------------*/
   const handleDatePrev = () => {
     setSelectedDate(selectedDate - 86400000);
@@ -203,6 +213,9 @@ export default function index() {
     if (new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(selectedDate) === 'Mon') {
       setSelectedWeek(selectedWeek - 1);
     }
+    translateX.value = -SCREEN_WIDTH;
+    translateX.value = withTiming(0, { duration: 400 });
+    
   };
   const handleDateNext = () => {
     setSelectedDate(selectedDate + 86400000);
@@ -210,6 +223,8 @@ export default function index() {
     if (new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(selectedDate) === 'Sun') {
       setSelectedWeek(selectedWeek + 1);
     }
+    translateX.value = SCREEN_WIDTH;
+    translateX.value = withTiming(0, { duration: 400 });
   };
 
   /*--------------------useEffect--------------------*/
@@ -217,14 +232,13 @@ export default function index() {
     getTodoByDate(selectedDate);
   }, [selectedDate]);
 
-
   // bug fixed selected todo.date was not changing automatically blah
   useEffect(() => {
     setTodo({ ...todo, date: selectedDate });
-  },[selectedDate])
+  }, [selectedDate]);
 
   return (
-    <View className="flex h-screen w-full flex-col items-center justify-center bg-[#0F0F0F] p-2">
+    <View className="flex h-screen w-screen flex-col items-center justify-center bg-[#0F0F0F] p-2">
       <RenderMonthYear
         setShowCalendar={setShowCalendar}
         currentMonth={currentMonth}
@@ -234,7 +248,108 @@ export default function index() {
         setSelectedDate={setSelectedDate}
         setSelectedWeek={setSelectedWeek}
         todayWeekNumber={todayWeekNumber}
+        translateX={translateX}
+        SCREEN_WIDTH={SCREEN_WIDTH}
       />
+      
+      <View className="flex h-[13%] items-center justify-center">
+        <ScrollView
+          stickyHeaderHiddenOnScroll
+          showsHorizontalScrollIndicator={false}
+          onMomentumScrollEnd={(e) => {
+            if (e.nativeEvent.contentOffset.x > 0) {
+              setSelectedWeek(selectedWeek + 1);
+            } else if (e.nativeEvent.contentOffset.x < 0) {
+              setSelectedWeek(selectedWeek - 1);
+            }
+          }}
+          className=" flex h-[15%] flex-row"
+          horizontal={true}>
+          <View className="w-max-screen mt-2 flex flex-row items-center justify-center px-[0.05rem]">
+            {currentWeekDays.map((day, index) => {
+              return (
+                <WeekDay
+                  key={index}
+                  day={day}
+                  index={index}
+                  selectedDate={selectedDate}
+                  setSelectedDate={setSelectedDate}
+                  translateX={translateX}
+                  SCREEN_WIDTH={SCREEN_WIDTH}
+                />
+              );
+            })}
+          </View>
+        </ScrollView>
+      </View>
+      <Animated.View style={animatedStyle} className="h-[77%] pb-2">
+        <ScrollView
+          horizontal={true}
+          className="h-full w-screen"
+          onMomentumScrollEnd={(e) => {
+            if (e.nativeEvent.contentOffset.x > 0) {
+              handleDateNext();
+            } else if (e.nativeEvent.contentOffset.x < 0) {
+              handleDatePrev();
+            }
+          }}>
+          <View className="mt-2 flex h-full flex-row px-[0.01rem] pb-2">
+            <ScrollView
+              bounces={true}
+              showsVerticalScrollIndicator
+              className="h-full w-screen px-2">
+            
+              {todoData.map((item: Todo, index) => (
+                <RenderTodo
+                  key={index}
+                  item={item}
+                  index={index}
+                  setShowEditTodo={setShowEditTodo}
+                  updateChecked={updateChecked}
+                  updateIncreament={updateIncreament}
+                  setTodo={setTodo}
+                />
+              ))}
+              {todoData.length === 0 && <NoDataFound />}
+            </ScrollView>
+          </View>
+        </ScrollView>
+      </Animated.View>
+
+      <AddTodoButton setTodo={setTodo} setShowAddTodo={setShowAddTodo} selectedDate={selectedDate} />
+      <Portal>
+      <Modal
+        animationType="slide"
+        visible={showAddTodo}
+        onDismiss={() => {
+          setTodo({
+            id: 0,
+            title: '',
+            complete: 0,
+            type: 'tick',
+            time: 3600000,
+            timeCompleted: 0,
+            maxIncreament: 1,
+            increamentCompleted: 0,
+            emoji: '📌',
+            bgColor: '#5f4dff',
+            date: selectedDate,
+          });
+        }}
+        onRequestClose={() => setShowAddTodo(false)}
+        style={{ backgroundColor: '#0f0f0f' }}
+        className="flex h-full self-cen flex-1 absolute w-full flex-col items-center justify-center bg-[#0F0F0F50]">
+        <AddTodoModal
+          setTodoTempEmoji={setTodoTempEmoji}
+          setShowAddTodo={setShowAddTodo}
+          setShowColorModal={setShowColorModal}
+          setShowEmojiModal={setShowEmojiModal}
+          insertTodo={insertTodo}
+          todo={todo}
+          setTodo={setTodo}
+          selectedDate={selectedDate}
+        />
+      </Modal>
       <Modal
         animationType="fade"
         visible={showCalendar}
@@ -273,39 +388,6 @@ export default function index() {
       </Modal>
       <Modal
         animationType="slide"
-        visible={showAddTodo}
-        onDismiss={() =>{
-          setTodo({
-            id: 0,
-            title: '',
-            complete: 0,
-            type: 'tick',
-            time: 3600000,
-            timeCompleted: 0,
-            maxIncreament: 1,
-            increamentCompleted: 0,
-            emoji: '📌',
-            bgColor: '#5f4dff',
-            date: selectedDate,
-          })
-        }
-        }
-        onRequestClose={() => setShowAddTodo(false)}
-        style={{ backgroundColor: '#0f0f0f' }}
-        className="flex h-full w-full flex-col items-center justify-center bg-[#0F0F0F50]">
-        <AddTodoModal
-          setTodoTempEmoji={setTodoTempEmoji}
-          setShowAddTodo={setShowAddTodo}
-          setShowColorModal={setShowColorModal}
-          setShowEmojiModal={setShowEmojiModal}
-          insertTodo={insertTodo}
-          todo={todo}
-          setTodo={setTodo}
-          selectedDate={selectedDate}
-        />
-      </Modal>
-      <Modal
-        animationType="slide"
         visible={showEditTodo}
         onRequestClose={() => setShowEditTodo(false)}
         onDismiss={() =>
@@ -337,67 +419,8 @@ export default function index() {
           updateTodo={updateTodo}
         />
       </Modal>
-
-      <View className="flex h-[13%] items-center justify-center">
-        <ScrollView
-          stickyHeaderHiddenOnScroll
-          showsHorizontalScrollIndicator={false}
-          onMomentumScrollEnd={(e) => {
-            if (e.nativeEvent.contentOffset.x > 0) {
-              setSelectedWeek(selectedWeek + 1);
-            } else if (e.nativeEvent.contentOffset.x < 0) {
-              setSelectedWeek(selectedWeek - 1);
-            }
-          }}
-          className=" flex h-[15%] flex-row"
-          horizontal={true}>
-          <View className="w-max-screen mt-2 flex flex-row items-center justify-center px-[0.05rem]">
-            {currentWeekDays.map((day, index) => {
-              return (
-                <WeekDay
-                  key={index}
-                  day={day}
-                  index={index}
-                  selectedDate={selectedDate}
-                  setSelectedDate={setSelectedDate}
-                />
-              );
-            })}
-          </View>
-        </ScrollView>
-      </View>
-      <View className="h-[77%] pb-2">
-        <ScrollView
-          horizontal={true}
-          className="h-full w-screen"
-          onMomentumScrollEnd={(e) => {
-            if (e.nativeEvent.contentOffset.x > 0) {
-              handleDateNext();
-            } else if (e.nativeEvent.contentOffset.x < 0) {
-              handleDatePrev();
-            }
-          }}>
-          <View className="mt-2 flex h-full pb-2 flex-row px-[0.01rem]">
-            <ScrollView bounces={true} showsVerticalScrollIndicator className="w-screen h-full px-2">
-              {todoData.length === 0 && <NoDataFound />}
-
-              {todoData.map((item: Todo, index) => (
-                <RenderTodo
-                  key={index}
-                  item={item}
-                  index={index}
-                  setShowEditTodo={setShowEditTodo}
-                  updateChecked={updateChecked}
-                  updateIncreament={updateIncreament}
-                  setTodo={setTodo}
-                />
-              ))}
-            </ScrollView>
-          </View>
-        </ScrollView>
-      </View>
-
-      <AddTodoButton setShowAddTodo={setShowAddTodo} selectedDate={selectedDate} />
+      </Portal>
     </View>
+    
   );
 }

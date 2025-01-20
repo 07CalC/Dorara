@@ -1,7 +1,9 @@
 import { FontAwesome } from '@expo/vector-icons';
+import moment from 'moment';
 import { Text } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { View } from 'react-native';
+import { SharedValue, withTiming } from 'react-native-reanimated';
 
 type props = {
   setShowCalendar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,6 +14,9 @@ type props = {
   setSelectedDate: React.Dispatch<React.SetStateAction<number>>;
   setSelectedWeek: React.Dispatch<React.SetStateAction<number>>;
   todayWeekNumber: number;
+  translateX: SharedValue<number>;
+  SCREEN_WIDTH: number;
+
 };
 
 export const RenderMonthYear = ({
@@ -23,6 +28,8 @@ export const RenderMonthYear = ({
   setSelectedDate,
   setSelectedWeek,
   todayWeekNumber,
+  translateX,
+  SCREEN_WIDTH
 }: props) => {
   return (
     <View className="top-0 flex h-[5%] w-full flex-row items-center px-5">
@@ -39,8 +46,11 @@ export const RenderMonthYear = ({
           <TouchableOpacity
             className="flex justify-end"
             onPress={() => {
+              translateX.value = selectedDate < todayDate ? SCREEN_WIDTH: -SCREEN_WIDTH;
+              translateX.value = withTiming(0, { duration: 300 });
               setSelectedDate(parseInt(todayDate.startOf('day').format('x')));
               setSelectedWeek(todayWeekNumber);
+              
             }}>
             <Text className="text-right text-xl font-semibold text-[#5f4dff]">Today</Text>
           </TouchableOpacity>

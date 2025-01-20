@@ -6,6 +6,7 @@ import { Asset } from 'expo-asset';
 import { SQLiteProvider } from 'expo-sqlite';
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
+import { Portal, Provider } from 'react-native-paper';
 
 
 export const unstable_settings = {
@@ -51,11 +52,13 @@ export default function RootLayout() {
         </View>;
   }
   return (
+    <Provider>
     <SQLiteProvider databaseName='dorara.db'>
     <Stack screenOptions={{ headerShown: false , contentStyle: { backgroundColor: '#0F0F0F' }}}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false ,contentStyle: { backgroundColor: '#0F0F0F' }}} />
       
     </Stack>
     </SQLiteProvider>
+    </Provider>
   );
 }
