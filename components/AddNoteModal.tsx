@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -112,6 +113,10 @@ export const AddNoteModal = ({
           {editNote && (
             <TouchableOpacity
               onPress={() => {
+                if(Note.title === '') {
+                  ToastAndroid.show('Please enter a title', ToastAndroid.SHORT);
+                  return
+                }
                 setInitialContent(NoteContent as string);
                 insertNote();
                 setEditNote(false);

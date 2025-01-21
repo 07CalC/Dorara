@@ -1,4 +1,4 @@
-import { Dimensions, Modal, ScrollView, View } from 'react-native';
+import { Dimensions, Modal, ScrollView, ToastAndroid, View } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -60,6 +60,10 @@ export default function index() {
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: translateX.value }],
   }));
+  const weekTranslateX = useSharedValue(0);
+  const weekAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: weekTranslateX.value }],
+  }))
 
   const setColor = (color: string) => {
     setTodo({ ...todo, bgColor: color });
@@ -252,14 +256,18 @@ export default function index() {
         SCREEN_WIDTH={SCREEN_WIDTH}
       />
       
-      <View className="flex h-[13%] items-center justify-center">
+      <Animated.View style={weekAnimatedStyle} className="flex h-[13%] items-center justify-center">
         <ScrollView
           stickyHeaderHiddenOnScroll
           showsHorizontalScrollIndicator={false}
           onMomentumScrollEnd={(e) => {
             if (e.nativeEvent.contentOffset.x > 0) {
+              weekTranslateX.value = SCREEN_WIDTH;
+              weekTranslateX.value = withTiming(0, { duration: 300 });
               setSelectedWeek(selectedWeek + 1);
             } else if (e.nativeEvent.contentOffset.x < 0) {
+              weekTranslateX.value = -SCREEN_WIDTH;
+              weekTranslateX.value = withTiming(0, { duration: 300 });
               setSelectedWeek(selectedWeek - 1);
             }
           }}
@@ -281,7 +289,7 @@ export default function index() {
             })}
           </View>
         </ScrollView>
-      </View>
+      </Animated.View>
       <Animated.View style={animatedStyle} className="h-[77%] pb-2">
         <ScrollView
           horizontal={true}

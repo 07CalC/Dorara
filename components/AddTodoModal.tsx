@@ -1,5 +1,5 @@
 import { FontAwesome } from '@expo/vector-icons';
-import { Text, TextInput, TouchableOpacity } from 'react-native';
+import { Text, TextInput, ToastAndroid, TouchableOpacity } from 'react-native';
 import { View } from 'react-native';
 
 type props = {
@@ -143,6 +143,10 @@ export const AddTodoModal = ({
       </View>
       <TouchableOpacity
         onPress={() => {
+          if(todo.title === ''){
+            ToastAndroid.show('Please add a title', ToastAndroid.TOP);
+            return
+          }
           insertTodo();
           setTodo({
             id: 0,

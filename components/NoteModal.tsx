@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -88,6 +89,7 @@ export const NoteModal = ({
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
+              ToastAndroid.show('Note deleted', ToastAndroid.SHORT);
               deleteNote(Note.id);
               setShowNoteModal(false);
             }}>

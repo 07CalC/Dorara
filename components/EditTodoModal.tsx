@@ -1,5 +1,5 @@
 import { FontAwesome } from '@expo/vector-icons';
-import { Text, TextInput, TouchableOpacity } from 'react-native';
+import { Text, TextInput, ToastAndroid, TouchableOpacity } from 'react-native';
 import { View } from 'react-native';
 import { Todo } from '~/lib/types';
 
@@ -147,6 +147,7 @@ export const EditTodoModal = ({
       <View className="flex flex-row items-center justify-between gap-x-5 px-4">
         <TouchableOpacity
           onPress={() => {
+            ToastAndroid.show("Deleted Todo", ToastAndroid.SHORT);
             deleteTodo(todo.id);
             setTodo({
               id: 0,
