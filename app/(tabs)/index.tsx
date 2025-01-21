@@ -19,7 +19,9 @@ import { EmojiModal } from '~/components/EmojiModal';
 import { CalendarModal } from '~/components/CalendarModal';
 import { RenderMonthYear } from '~/components/RenderMonthYear';
 import { EditTodoModal } from '~/components/EditTodoModal';
-import { Portal } from 'react-native-paper';
+import { Portal, Provider } from 'react-native-paper';
+
+const color = '#5f4dff'
 
 export default function index() {
   /*--------------------const Declaration--------------------*/
@@ -53,7 +55,7 @@ export default function index() {
     maxIncreament: 1,
     increamentCompleted: 0,
     emoji: '📌',
-    bgColor: '#5f4dff',
+    bgColor: color,
     date: selectedDate,
   });
   const translateX = useSharedValue(0);
@@ -212,25 +214,30 @@ export default function index() {
 
   const SCREEN_WIDTH = Dimensions.get('window').width;
 
+
   /*--------------------date Functions--------------------*/
   const handleDatePrev = () => {
     setSelectedDate(selectedDate - 86400000);
     setSelectedWeek(moment(selectedDate).isoWeek());
     if (new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(selectedDate) === 'Mon') {
+      weekTranslateX.value = -SCREEN_WIDTH;
+      weekTranslateX.value = withTiming(0, { duration: 200 });
       setSelectedWeek(selectedWeek - 1);
     }
     translateX.value = -SCREEN_WIDTH;
-    translateX.value = withTiming(0, { duration: 400 });
+    translateX.value = withTiming(0, { duration: 300 });
     
   };
   const handleDateNext = () => {
     setSelectedDate(selectedDate + 86400000);
     moment(selectedDate).isoWeek();
     if (new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(selectedDate) === 'Sun') {
+      weekTranslateX.value = SCREEN_WIDTH;
+      weekTranslateX.value = withTiming(0, { duration: 200 });
       setSelectedWeek(selectedWeek + 1);
     }
     translateX.value = SCREEN_WIDTH;
-    translateX.value = withTiming(0, { duration: 400 });
+    translateX.value = withTiming(0, { duration: 300 });
   };
 
   /*--------------------useEffect--------------------*/
@@ -244,6 +251,7 @@ export default function index() {
   }, [selectedDate]);
 
   return (
+    <Provider>
     <View className="flex h-screen w-screen flex-col items-center justify-center bg-[#0F0F0F] p-2">
       <RenderMonthYear
         setShowCalendar={setShowCalendar}
@@ -256,6 +264,9 @@ export default function index() {
         todayWeekNumber={todayWeekNumber}
         translateX={translateX}
         SCREEN_WIDTH={SCREEN_WIDTH}
+        weekTranslateX={weekTranslateX}
+        selectedWeek={selectedWeek}
+        color={color}
       />
       
       <Animated.View style={weekAnimatedStyle} className="flex h-[13%] items-center justify-center">
@@ -287,6 +298,7 @@ export default function index() {
                   translateX={translateX}
                   SCREEN_WIDTH={SCREEN_WIDTH}
                   todayDate={parseInt(moment(todayDate).startOf('day').format('x'))}
+                  color={color}
                 />
               );
             })}
@@ -326,7 +338,6 @@ export default function index() {
           </View>
         </ScrollView>
       </Animated.View>
-
       <AddTodoButton setTodo={setTodo} setShowAddTodo={setShowAddTodo} selectedDate={selectedDate} />
       <Portal>
       <Modal
@@ -343,13 +354,13 @@ export default function index() {
             maxIncreament: 1,
             increamentCompleted: 0,
             emoji: '📌',
-            bgColor: '#5f4dff',
+            bgColor: color,
             date: selectedDate,
           });
         }}
         onRequestClose={() => setShowAddTodo(false)}
         style={{ backgroundColor: '#0f0f0f' }}
-        className="flex h-full self-cen flex-1 absolute w-full flex-col items-center justify-center bg-[#0F0F0F50]">
+        className="flex h-full absolute self-center flex-1 w-full flex-col items-center justify-center bg-[#0F0F0F50]">
         <AddTodoModal
           setTodoTempEmoji={setTodoTempEmoji}
           setShowAddTodo={setShowAddTodo}
@@ -412,7 +423,7 @@ export default function index() {
             maxIncreament: 1,
             increamentCompleted: 0,
             emoji: '📌',
-            bgColor: '#5f4dff',
+            bgColor: color,
             date: selectedDate,
           })
         }
@@ -432,6 +443,7 @@ export default function index() {
       </Modal>
       </Portal>
     </View>
+    </Provider>
     
   );
 }

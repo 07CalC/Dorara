@@ -1,27 +1,28 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
+import { Provider } from 'react-native-paper';
 
 export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#5f4dff',
+        // tabBarActiveTintColor: '#5f4dff',
         tabBarInactiveTintColor: '#7F7F7F',
         tabBarStyle: {
           backgroundColor: '#0F0F0F',
           height: 55,
-          borderTopWidth: 0.5,
-          borderColor: '#5f4dff',
         },
         tabBarHideOnKeyboard: true,
       }}>
       <Tabs.Screen
         name="index"
         options={{
+          tabBarActiveTintColor: '#5f4dff',
           title: 'Todo',
           tabBarIcon: ({ color }) => <FontAwesome size={25} name="list" color={color} />,
           tabBarLabelStyle: {
+            
             fontSize: 12,
             fontWeight: 'semibold',
           },
@@ -30,6 +31,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="notes"
         options={{
+          tabBarActiveTintColor: '#FCDC00',
           title: 'Notes',
           tabBarIcon: ({ color }) => <FontAwesome size={25} name="sticky-note" color={color} />,
           tabBarLabelStyle: {
@@ -38,7 +40,7 @@ export default function TabsLayout() {
           },
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="calendar"
         options={{
           title: 'Calendar',
@@ -48,10 +50,11 @@ export default function TabsLayout() {
             fontWeight: 'semibold',
           },
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="habits"
         options={{
+          tabBarActiveTintColor: '#0fd8f2',
           title: 'Habits',
           tabBarIcon: ({ color }) => <FontAwesome size={25} name="bar-chart" color={color} />,
           tabBarLabelStyle: {
@@ -63,6 +66,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="journal"
         options={{
+          tabBarActiveTintColor: '#1ec40c',
           title: 'Journal',
           tabBarIcon: ({ color }) => <FontAwesome size={25} name="book" color={color} />,
           tabBarLabelStyle: {

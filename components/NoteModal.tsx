@@ -21,6 +21,7 @@ import {
   useEditorBridge,
   useEditorContent,
 } from '@10play/tentap-editor';
+import notes from '~/app/(tabs)/notes';
 type props = {
   setShowNoteModal: React.Dispatch<React.SetStateAction<boolean>>;
   Note: Note;
@@ -127,6 +128,10 @@ export const NoteModal = ({
           {editNote && (
             <TouchableOpacity
               onPress={() => {
+                if(Note.title === '' && Note.content === ''){
+                  ToastAndroid.show('cant save empty note', ToastAndroid.SHORT)
+                  return
+                }
                 setInitialContent(NoteContent as string);
                 updateNote(Note.id);
                 setEditNote(false);

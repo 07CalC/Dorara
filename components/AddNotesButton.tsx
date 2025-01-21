@@ -6,9 +6,10 @@ import { Note } from '~/lib/types';
 type props = {
   setNote: React.Dispatch<React.SetStateAction<Note>>;
   setShowNote: React.Dispatch<React.SetStateAction<boolean>>;
+  color: string
 };
 
-export const AddNotesButton = ({ setShowNote, setNote }: props) => {
+export const AddNotesButton = ({ setShowNote, setNote, color }: props) => {
   return (
     <View className={`flex-1`}>
       <TouchableOpacity
@@ -20,11 +21,11 @@ export const AddNotesButton = ({ setShowNote, setNote }: props) => {
             plainText: '',
             date: 0,
             tag: 'tag',
-            color: '#5f4dff',
+            color: color,
           });
           setShowNote(true);
         }}
-        className={`bottom-[6.5rem] left-44 flex h-20 w-20 items-center justify-center rounded-full bg-[#5f4dff] p-5`}>
+        className={`bottom-[6.5rem] left-44 flex h-20 w-20 items-center justify-center rounded-full p-5`} style={{backgroundColor: color}}>
         <FontAwesome
           className="flex items-center justify-center text-center"
           name="plus"

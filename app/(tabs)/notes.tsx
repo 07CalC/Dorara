@@ -12,8 +12,10 @@ import { RenderNotes } from '~/components/RenderNotes';
 import { TagEditorModal } from '~/components/TagEditorModal';
 import { Note } from '~/lib/types';
 
-export default function notes() {
+export default function notes(){
   /*---------------------const declaration--------------------*/
+
+  const color = '#FCDC00';
   const db = useSQLiteContext();
   const [showNote, setShowNote] = useState<boolean>(false);
   const [showAddNote, setShowAddNote] = useState<boolean>(false);
@@ -29,7 +31,7 @@ export default function notes() {
     content: '',
     date: 0,
     tag: '',
-    color: '#5f4dff',
+    color: color,
     plainText: '',
   });
 
@@ -98,7 +100,6 @@ export default function notes() {
     }
     await getNotes();
   };
-
 
   /*--------------------useEffect--------------------*/
   useEffect(() => {
@@ -178,7 +179,9 @@ export default function notes() {
       </Modal>
 
       <View className="flex h-[8%] w-11/12 flex-row items-center justify-center">
-        <View className="flex h-2/3 w-full flex-row items-center gap-x-2 rounded-full border border-[#5f4dff] bg-[#1e1e1e] p-1 px-4 placeholder:font-bold">
+        <View
+          style={{ borderColor: color }}
+          className="flex h-2/3 w-full flex-row items-center gap-x-2 rounded-full border bg-[#1e1e1e] p-1 px-4 placeholder:font-bold">
           <FontAwesome name="search" size={20} className="w-[5%]" color={'#9ca3af'} />
           <TextInput
             value={query}
@@ -188,7 +191,7 @@ export default function notes() {
           />
           {query !== '' && (
             <TouchableOpacity className="mr-2 w-[5%]" onPress={() => setQuery('')}>
-              <FontAwesome name="close" size={20} color={'#9ca3af'} />
+              <FontAwesome name="close" size={20} color={color} />
             </TouchableOpacity>
           )}
         </View>
@@ -199,7 +202,7 @@ export default function notes() {
           <RenderNotes setNote={setNote} notesList={filteredNotes} setShowNote={setShowNote} />
         )}
       </View>
-      <AddNotesButton setNote={setNote} setShowNote={setShowAddNote} />
+      <AddNotesButton color={color} setNote={setNote} setShowNote={setShowAddNote} />
     </View>
   );
 }

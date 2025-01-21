@@ -6,59 +6,59 @@ import { Asset } from 'expo-asset';
 import { SQLiteProvider } from 'expo-sqlite';
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
-import { Portal, Provider } from 'react-native-paper';
-
+import { Modal, Portal, Provider } from 'react-native-paper';
+import { enableScreens } from 'react-native-screens';
 
 export const unstable_settings = {
-
   initialRouteName: '(tabs)',
 };
+
+enableScreens();
 
 const loadDatabase = async () => {
   const dbName = 'dorara.db';
   const dbAsset = require('../assets/dorara.db');
   const dbURI = Asset.fromModule(dbAsset).uri;
   const dbFilePath = `${FileSystem.documentDirectory}SQLite/${dbName}`;
-   
-  const fileInfo = await FileSystem.getInfoAsync(dbFilePath); 
+
+  const fileInfo = await FileSystem.getInfoAsync(dbFilePath);
 
   if (!fileInfo.exists) {
-    await FileSystem.makeDirectoryAsync(
-      `${FileSystem.documentDirectory}SQLite`,
-       { intermediates: true }
-     
-    );
+    await FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}SQLite`, {
+      intermediates: true,
+    });
     await FileSystem.downloadAsync(dbURI, dbFilePath);
   }
-}
-
-
-
+};
 
 export default function RootLayout() {
   const [dbLoaded, setDbLoaded] = useState<boolean>(false);
-   
-  useEffect(() => {
-    loadDatabase().then(() => {
-      setDbLoaded(true);
-    }).catch((error) => {
-      console.error(error);
-    })
-  })
 
-  if(!dbLoaded) {
-    return <View className="flex h-screen w-full flex-col items-center justify-center bg-[#0F0F0F] p-2">
-          <Text className="text-[#5f4dff] text-4xl">Loading...</Text>
-        </View>;
+  useEffect(() => {
+    loadDatabase()
+      .then(() => {
+        setDbLoaded(true);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
+
+  if (!dbLoaded) {
+    return (
+      <View className="flex h-screen w-full flex-col items-center justify-center bg-[#0F0F0F] p-2">
+        <Text className="text-4xl text-[#5f4dff]">Loading...</Text>
+      </View>
+    );
   }
   return (
-    <Provider>
-    <SQLiteProvider databaseName='dorara.db'>
-    <Stack screenOptions={{ headerShown: false , contentStyle: { backgroundColor: '#0F0F0F' }}}>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false ,contentStyle: { backgroundColor: '#0F0F0F' }}} />
-      
-    </Stack>
+    <SQLiteProvider databaseName="dorara.db">
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#0F0F0F' } }}>
+        <Stack.Screen
+          name="(tabs)"
+          options={{ headerShown: false, contentStyle: { backgroundColor: '#0F0F0F' } }}
+        />
+      </Stack>
     </SQLiteProvider>
-    </Provider>
   );
 }

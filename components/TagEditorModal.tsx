@@ -15,7 +15,7 @@ export const TagEditorModal = ({ setTag, setShowTagEditorModal, tempTag, setTemp
       <View className="flex h-40 w-80 flex-col items-center justify-center gap-y-3 rounded-2xl bg-[#1A222D] p-4">
         <Text className="text-center text-xl font-semibold text-gray-200">Tag</Text>
         <TextInput
-          className="w-full self-center rounded-lg border border-[#5f4dff] bg-[#1A222D] p-2 text-center text-3xl text-gray-200"
+          className="w-full self-center rounded-lg border border-[#f2e416] bg-[#1A222D] p-2 text-center text-3xl text-gray-200"
           value={tempTag}
           onChangeText={setTempTag}
         />
@@ -24,14 +24,14 @@ export const TagEditorModal = ({ setTag, setShowTagEditorModal, tempTag, setTemp
             onPress={() => {
               setShowTagEditorModal(false);
             }}>
-            <Text className="text-xl font-semibold text-[#5f4dff]">Cancel</Text>
+            <Text className="text-xl font-semibold text-[#f2e416]">Cancel</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               setShowTagEditorModal(false);
               setTag(tempTag);
             }}>
-            <Text className="text-xl font-semibold text-[#5f4dff]">Ok</Text>
+            <Text className="text-xl font-semibold text-[#f2e416]">Ok</Text>
           </TouchableOpacity>
         </View>
       </View>

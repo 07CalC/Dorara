@@ -39,7 +39,6 @@ export const AddNoteModal = ({
   insertNote,
 }: props) => {
   const [initialContent, setInitialContent] = useState<string>(Note.content);
-  const [content, setContent] = useState<string>('');
   const [editNote, setEditNote] = useState<boolean>(true);
   const editor = useEditorBridge({
     bridgeExtensions: [...TenTapStartKit, CodeBridge.configureCSS(darkEditorCss)],
@@ -91,7 +90,7 @@ export const AddNoteModal = ({
       </View>
       {/* </View> */}
       <View className="flex h-[90%] w-full px-2">
-        <RichText editor={editor} />
+        <RichText editor={editor}/>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={exampleStyles.keyboardAvoidingView}>
@@ -113,12 +112,13 @@ export const AddNoteModal = ({
           {editNote && (
             <TouchableOpacity
               onPress={() => {
-                if(Note.title === '') {
-                  ToastAndroid.show('Please enter a title', ToastAndroid.SHORT);
+                if(Note.title === '' && Note.content === '') {
+                  ToastAndroid.show('Cant save empty note', ToastAndroid.SHORT);
                   return
                 }
                 setInitialContent(NoteContent as string);
                 insertNote();
+                setShowAddNote(false)
                 setEditNote(false);
               }}>
               <FontAwesome

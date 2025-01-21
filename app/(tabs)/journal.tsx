@@ -7,6 +7,8 @@ import { KeyboardAvoidingView, Modal, Text, TouchableOpacity, View } from 'react
 import { CalendarModal } from '~/components/CalendarModal';
 import { Journal } from '~/lib/types';
 
+const color = '#1ec40c'
+
 export default function journal() {
   /*--------------------const declaration--------------------*/
   const db = useSQLiteContext();
@@ -71,14 +73,14 @@ export default function journal() {
       </Modal>
       <View className="flex h-[5%] w-full flex-row items-center justify-between px-2">
         <TouchableOpacity onPress={() => setShowCalendar(true)}>
-          <Text className="text-2xl font-semibold text-[#5f4dff]">
+          <Text className="text-2xl font-semibold" style={{color: color}}>
             {moment(selectedDate).format('dddd, DD MMMM YYYY')}
           </Text>
         </TouchableOpacity>
         {selectedDate !== parseInt(moment().startOf('day').format('x')) && (
           <TouchableOpacity
             onPress={() => setSelectedDate(parseInt(moment().startOf('day').format('x')))}>
-            <Text className="rounded-lg bg-[#5f4dff] px-4 py-2 text-sm font-semibold text-[#0F0F0F]">
+            <Text style={{backgroundColor: color}} className="rounded-lg px-4 py-2 text-sm font-semibold text-[#0F0F0F]">
               Today
             </Text>
           </TouchableOpacity>
@@ -101,7 +103,8 @@ export default function journal() {
                 name="save"
                 size={30}
                 color="black"
-                className={`absolute bottom-5 right-2 z-10 rounded-full bg-[#5f4dff] p-3 px-4`}
+                style={{backgroundColor: color}}
+                className={`absolute bottom-5 right-2 z-10 rounded-full p-3 px-4`}
               />
             </TouchableOpacity>
           )}
