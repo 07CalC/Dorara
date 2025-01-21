@@ -140,6 +140,8 @@ export default function index() {
     getTodoByDate(selectedDate);
   };
 
+  
+
   const updateTodo = async (id: number) => {
     try {
       await db.runAsync(
@@ -284,6 +286,7 @@ export default function index() {
                   setSelectedDate={setSelectedDate}
                   translateX={translateX}
                   SCREEN_WIDTH={SCREEN_WIDTH}
+                  todayDate={parseInt(moment(todayDate).startOf('day').format('x'))}
                 />
               );
             })}

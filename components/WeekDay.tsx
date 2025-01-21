@@ -12,9 +12,10 @@ type props = {
   selectedDate: number;
   translateX: SharedValue<number>;
   SCREEN_WIDTH: number;
+  todayDate: number;
 };
 
-export const WeekDay = ({ day, index, setSelectedDate, selectedDate, translateX, SCREEN_WIDTH }: props) => {
+export const WeekDay = ({ day, index, setSelectedDate, selectedDate, translateX, SCREEN_WIDTH, todayDate }: props) => {
   return (
     <TouchableOpacity
       onPress={() => {
@@ -28,8 +29,8 @@ export const WeekDay = ({ day, index, setSelectedDate, selectedDate, translateX,
         {day.day}
       </Text>
       <View
-        className={`flex min-w-12 items-center justify-center rounded-full p-2 ${selectedDate === day.milisecond ? 'bg-[#0F0F0F]' : 'bg-[#5f4dff36]'}`}>
-        <Text className={` } text-2xl text-white`}>{day.date}</Text>
+        className={`flex min-w-12 items-center justify-center rounded-full p-2 ${selectedDate === day.milisecond ? 'bg-[#0F0F0F]' : 'bg-[#5f4dff35]'}`}>
+        <Text style={{color: day.milisecond === todayDate ? '#5f4dff' : '#ffffff'}} className={`text-2xl `}>{day.date}</Text>
       </View>
     </TouchableOpacity>
   );
