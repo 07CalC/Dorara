@@ -54,7 +54,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="habits"
         options={{
-          tabBarActiveTintColor: '#0fd8f2',
+          tabBarActiveTintColor: '#FF8C42',
           title: 'Habits',
           tabBarIcon: ({ color }) => <FontAwesome size={25} name="bar-chart" color={color} />,
           tabBarLabelStyle: {

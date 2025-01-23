@@ -18,7 +18,6 @@ export const AddNotesButton = ({ setShowNote, setNote, color }: props) => {
             id: 0,
             title: '',
             content: '',
-            plainText: '',
             date: 0,
             tag: 'tag',
             color: color,

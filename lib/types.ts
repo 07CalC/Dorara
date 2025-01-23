@@ -19,7 +19,6 @@ export type Note = {
     id: number,
     title: string,
     content: string,
-    plainText: string,
     date: number,
     tag?: string,
     color: string

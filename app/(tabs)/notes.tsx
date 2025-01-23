@@ -3,7 +3,6 @@ import { useSQLiteContext } from 'expo-sqlite';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { Modal, TextInput, TouchableOpacity, View } from 'react-native';
-import { AddNoteModal } from '~/components/AddNoteModal';
 import { AddNotesButton } from '~/components/AddNotesButton';
 import { ColorModal } from '~/components/ColorModal';
 import { NoDataFound } from '~/components/NoDataFound';
@@ -32,7 +31,6 @@ export default function notes(){
     date: 0,
     tag: '',
     color: color,
-    plainText: '',
   });
 
   /*--------------------setColor Function--------------------*/
@@ -57,14 +55,12 @@ export default function notes(){
                  title,
                  content,
                  date,
-                 plainText,
                  color,
                  tag
              ) VALUES (
                  "${note.title}",
                  "${note.content}",
                  ${parseInt(moment().format('x'))},
-                 "${note.plainText}",
                  "${note.color}",
                  "${note.tag}"
              )
@@ -81,7 +77,6 @@ export default function notes(){
         UPDATE notes SET
         title = "${note.title}",
         content = "${note.content}",
-        plainText = "${note.plainText}",
         color = "${note.color}",
         tag = "${note.tag}"
         WHERE id = ${id}
@@ -101,6 +96,7 @@ export default function notes(){
     await getNotes();
   };
 
+
   /*--------------------useEffect--------------------*/
   useEffect(() => {
     if (query !== '') {
@@ -108,14 +104,14 @@ export default function notes(){
         return (
           note.title.toLowerCase().includes(query.toLowerCase()) ||
           note.tag?.toLowerCase().includes(query.toLowerCase()) ||
-          note.plainText.toLowerCase().includes(query.toLowerCase())
+          note.content.toLowerCase().includes(query.toLowerCase())
         );
       });
       setFilteredNotes(afterFilterNotes);
     } else {
       setFilteredNotes(notesList);
     }
-  }, [query, updateNote, deleteNote, insertNote]);
+  }, [query, notesList]);
 
   useEffect(() => {
     getNotes();
@@ -127,7 +123,7 @@ export default function notes(){
         visible={showNote}
         onRequestClose={() => setShowNote(false)}
         style={{ backgroundColor: '#0f0f0f' }}
-        className="flex h-full w-full flex-col items-center justify-center bg-[#0F0F0F50]">
+        className="flex h-full w-full flex-col items-center justify-center bg-[#0F0F0F]">
         <NoteModal
           setShowNoteModal={setShowNote}
           Note={note}
@@ -144,13 +140,14 @@ export default function notes(){
         onRequestClose={() => setShowAddNote(false)}
         style={{ backgroundColor: '#0f0f0f' }}
         className="flex h-full w-full flex-col items-center justify-center bg-[#0F0F0F50]">
-        <AddNoteModal
-          setShowAddNote={setShowAddNote}
+        <NoteModal
           Note={note}
+          setShowNoteModal={setShowAddNote}
+          deleteNote={deleteNote}
           setNote={setNote}
-          setshowColorModal={setShowColorModal}
+          setShowColorModal={setShowColorModal}
           setShowTagEditorModal={setShowTagEditorModal}
-          insertNote={insertNote}
+          updateNote={insertNote}
         />
       </Modal>
       <Modal
@@ -180,7 +177,7 @@ export default function notes(){
 
       <View className="flex h-[8%] w-11/12 flex-row items-center justify-center">
         <View
-          style={{ borderColor: color }}
+          style={{ borderColor: '#9ca3af' }}
           className="flex h-2/3 w-full flex-row items-center gap-x-2 rounded-full border bg-[#1e1e1e] p-1 px-4 placeholder:font-bold">
           <FontAwesome name="search" size={20} className="w-[5%]" color={'#9ca3af'} />
           <TextInput
@@ -196,7 +193,7 @@ export default function notes(){
           )}
         </View>
       </View>
-      <View className="h-[86%] w-full">
+      <View className="h-[85%] w-full">
         {filteredNotes.length === 0 && <NoDataFound />}
         {filteredNotes.length > 0 && (
           <RenderNotes setNote={setNote} notesList={filteredNotes} setShowNote={setShowNote} />

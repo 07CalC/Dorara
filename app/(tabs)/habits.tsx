@@ -22,7 +22,7 @@ import { EditTodoModal } from '~/components/EditTodoModal';
 import { Portal, Provider } from 'react-native-paper';
 
 
-const color = '#0fd8f2'
+const color = '#FF8C42'
 
 export default function habits() {
   /*--------------------const Declaration--------------------*/
@@ -88,7 +88,6 @@ export default function habits() {
 
   /*--------------------useEffect--------------------*/
   
-  console.log(JSON.stringify([0,3,4,6]))
 
   return (
     <Provider>

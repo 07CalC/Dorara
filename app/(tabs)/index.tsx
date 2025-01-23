@@ -378,6 +378,7 @@ export default function index() {
         transparent={true}
         onRequestClose={() => setShowCalendar(false)}>
         <CalendarModal
+         color={color}
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
           setSelectedWeek={setSelectedWeek}

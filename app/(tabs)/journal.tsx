@@ -63,6 +63,7 @@ export default function journal() {
     <View className="flex h-screen w-full flex-col bg-[#0F0F0F] p-2">
       <Modal transparent={true} visible={showCalendar} animationType="slide">
         <CalendarModal
+         color={color}
           selectedDate={selectedDate}
           setCalendarSelectedDate={setCalendarSelectedDate}
           calendarSelectedDate={calendarSelectedDate}

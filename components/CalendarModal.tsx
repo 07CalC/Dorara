@@ -11,6 +11,7 @@ type props = {
   setShowCalendar: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedDate: React.Dispatch<React.SetStateAction<number>>;
   setSelectedWeek: React.Dispatch<React.SetStateAction<number>>;
+  color: string
 };
 
 export const CalendarModal = ({
@@ -20,6 +21,7 @@ export const CalendarModal = ({
   setShowCalendar,
   setSelectedDate,
   setSelectedWeek,
+  color
 }: props) => {
   return (
     <View className="flex h-full w-full items-center justify-center bg-[#0F0F0F50]">
@@ -35,21 +37,22 @@ export const CalendarModal = ({
               setCalendarSelectedDate(parseInt(moment(date.dateString).format('x')));
             }}
             theme={{
-              todayTextColor: '#5F4DFF',
+              todayTextColor: color,
               dayTextColor: '#ffffff',
               backgroundColor: '#1A222D',
               calendarBackground: '#1A222D',
-              arrowColor: '#5f4dff',
-              selectedDayBackgroundColor: '#ffffff',
+              arrowColor: color,
+              selectedDayBackgroundColor: color,
               selectedDayTextColor: '#000000',
               monthTextColor: '#ffffff',
+              todayButtonColor: color,
             }}
             hideExtraDays
             initialDate={moment(selectedDate).toISOString()}
           />
           <View className="mb-4 flex w-full flex-row items-center justify-end gap-x-6 px-8">
             <TouchableOpacity onPress={() => setShowCalendar(false)}>
-              <Text className="text-xl font-semibold text-[#5f4dff]">Cancel</Text>
+              <Text className="text-xl font-semibold" style={{color: color}}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -57,7 +60,7 @@ export const CalendarModal = ({
                 setSelectedWeek(moment(calendarSelectedDate).isoWeek());
                 setShowCalendar(false);
               }}>
-              <Text className="text-xl font-semibold text-[#5f4dff]">Ok</Text>
+              <Text className="text-xl font-semibold" style={{color: color}}>Ok</Text>
             </TouchableOpacity>
           </View>
         </View>
