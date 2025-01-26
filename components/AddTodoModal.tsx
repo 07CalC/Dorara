@@ -24,7 +24,7 @@ export const AddTodoModal = ({
   selectedDate,
 }: props) => {
   return (
-    <View className="flex h-full flex-col gap-y-5 bg-[#0f0f0f] py-5">
+    <View className="flex w-screen h-screen flex-col gap-y-5 bg-[#0f0f0f] py-5">
       <View className="flex flex-row justify-between px-5">
         <Text className="self-center text-3xl font-bold text-white">Add Todo</Text>
         <TouchableOpacity
@@ -103,7 +103,7 @@ export const AddTodoModal = ({
               <TouchableOpacity
                 onPress={() => setTodo({ ...todo, maxIncreament: todo.maxIncreament - 1 })}
                 style={{ backgroundColor: todo.bgColor }}
-                className={`flex items-center justify-center rounded-2xl p-4 px-8`}>
+                className={`flex items-center justify-center rounded-2xl p-2 px-4`}>
                 <FontAwesome name="minus" size={30} style={{ color: '#0f0f0f' }} />
               </TouchableOpacity>
               <Text className="self-center text-5xl font-semibold text-gray-200">
@@ -112,7 +112,7 @@ export const AddTodoModal = ({
               <TouchableOpacity
                 onPress={() => setTodo({ ...todo, maxIncreament: todo.maxIncreament + 1 })}
                 style={{ backgroundColor: todo.bgColor }}
-                className={`flex items-center justify-center rounded-2xl p-4 px-8 bg-[${todo.bgColor}]`}>
+                className={`flex items-center justify-center rounded-2xl p-2 px-4 bg-[${todo.bgColor}]`}>
                 <FontAwesome name="plus" size={30} style={{ color: '#0f0f0f' }} />
               </TouchableOpacity>
             </View>

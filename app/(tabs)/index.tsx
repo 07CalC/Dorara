@@ -15,11 +15,11 @@ import { AddTodoButton } from '~/components/AddTodoButton';
 import { NoDataFound } from '~/components/NoDataFound';
 import { AddTodoModal } from '~/components/AddTodoModal';
 import { ColorModal } from '~/components/ColorModal';
-import { EmojiModal } from '~/components/EmojiModal';
 import { CalendarModal } from '~/components/CalendarModal';
 import { RenderMonthYear } from '~/components/RenderMonthYear';
 import { EditTodoModal } from '~/components/EditTodoModal';
 import { Portal, Provider } from 'react-native-paper';
+import EmojiModalLib from 'react-native-emoji-modal';
 
 const color = '#5f4dff'
 
@@ -393,13 +393,22 @@ export default function index() {
         visible={showEmojiModal}
         onRequestClose={() => setShowEmojiModal(false)}
         className="flex h-full w-full flex-col items-center justify-center bg-[#0F0F0F50]">
-        <EmojiModal
-          todoTempEmoji={todoTempEmoji}
-          setTodoTempEmoji={setTodoTempEmoji}
-          setShowEmojiModal={setShowEmojiModal}
-          todo={todo}
-          setTodo={setTodo}
-        />
+        <EmojiModalLib
+            emojiSize={40}
+            containerStyle={{
+              backgroundColor: '#1A222D',
+            }}
+            searchStyle={{
+              backgroundColor: '#1A222D',
+              borderColor: '#FFFFF',
+            }}
+            activeShortcutColor={'#5f4dff'}
+              onPressOutside={() => setShowEmojiModal(false)}
+              onEmojiSelected={(emoji: any) => {
+                setTodo({ ...todo, emoji: emoji });
+                setShowEmojiModal(false);
+              }}
+            />
       </Modal>
       <Modal
         animationType="slide"

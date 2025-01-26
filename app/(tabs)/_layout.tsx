@@ -22,11 +22,11 @@ export default function TabsLayout() {
           title: 'Todo',
           tabBarIcon: ({ color }) => <FontAwesome size={25} name="list" color={color} />,
           tabBarLabelStyle: {
-            
             fontSize: 12,
             fontWeight: 'semibold',
           },
         }}
+        
       />
       <Tabs.Screen
         name="notes"
@@ -51,7 +51,7 @@ export default function TabsLayout() {
           },
         }}
       /> */}
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="habits"
         options={{
           tabBarActiveTintColor: '#FF8C42',
@@ -62,7 +62,7 @@ export default function TabsLayout() {
             fontWeight: 'semibold',
           },
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="journal"
         options={{

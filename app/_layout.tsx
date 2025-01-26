@@ -6,7 +6,6 @@ import { Asset } from 'expo-asset';
 import { SQLiteProvider } from 'expo-sqlite';
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
-import { Modal, Portal, Provider } from 'react-native-paper';
 import { enableScreens } from 'react-native-screens';
 
 export const unstable_settings = {
@@ -56,7 +55,7 @@ export default function RootLayout() {
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#0F0F0F' } }}>
         <Stack.Screen
           name="(tabs)"
-          options={{ headerShown: false, contentStyle: { backgroundColor: '#0F0F0F' } }}
+          options={{ headerShown: false, contentStyle: { backgroundColor: '#0F0F0F', width: '100%' } }}
         />
       </Stack>
     </SQLiteProvider>

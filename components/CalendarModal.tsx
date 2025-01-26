@@ -34,7 +34,10 @@ export const CalendarModal = ({
           <Calendar
             style={{ height: 350, width: 350 }}
             onDayPress={(date: DateData) => {
-              setCalendarSelectedDate(parseInt(moment(date.dateString).format('x')));
+              setCalendarSelectedDate(selectedDate);
+              setSelectedWeek(moment(parseInt(moment(date.dateString).format('x'))).isoWeek())
+              setSelectedDate(parseInt(moment(date.dateString).format('x')));
+              setShowCalendar(false)
             }}
             theme={{
               todayTextColor: color,

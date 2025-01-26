@@ -1,5 +1,4 @@
 import { FontAwesome } from '@expo/vector-icons';
-import moment from 'moment';
 import { Text } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { View } from 'react-native';

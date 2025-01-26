@@ -106,7 +106,7 @@ export const EditTodoModal = ({
               <TouchableOpacity
                 onPress={() => setTodo({ ...todo, maxIncreament: todo.maxIncreament - 1 })}
                 style={{ backgroundColor: todo.bgColor }}
-                className={`flex items-center justify-center rounded-2xl p-4 px-8`}>
+                className={`flex items-center justify-center rounded-2xl p-2 px-4`}>
                 <FontAwesome name="minus" size={30} style={{ color: '#0f0f0f' }} />
               </TouchableOpacity>
               <Text className="self-center text-5xl font-semibold text-gray-200">
@@ -115,7 +115,7 @@ export const EditTodoModal = ({
               <TouchableOpacity
                 onPress={() => setTodo({ ...todo, maxIncreament: todo.maxIncreament + 1 })}
                 style={{ backgroundColor: todo.bgColor }}
-                className={`flex items-center justify-center rounded-2xl p-4 px-8`}>
+                className={`flex items-center justify-center rounded-2xl p-2 px-4`}>
                 <FontAwesome name="plus" size={30} style={{ color: '#0f0f0f' }} />
               </TouchableOpacity>
             </View>

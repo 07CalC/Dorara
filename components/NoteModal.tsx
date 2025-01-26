@@ -1,6 +1,8 @@
 import { FontAwesome } from '@expo/vector-icons';
 import React from 'react';
 import {
+  KeyboardAvoidingView,
+  Platform,
   Text,
   TextInput,
   ToastAndroid,
@@ -29,16 +31,16 @@ export const NoteModal = ({
   deleteNote,
 }: props) => {
   return (
-    <View className="flex h-full w-full flex-col bg-[#1A222D] ">
-      {/* <View className="flex w-full h-[15%] flex-col py-5 justify-center gap-y-2 bg" style={{backgroundColor: Note.color + '20'}}> */}
+    <View className="flex h-full w-full flex-col bg-[#0F0F0F] ">
+      <View className="flex w-full h-[7rem] flex-col py-5 justify-center bg" style={{backgroundColor: Note.color + '15'}}>
       <TextInput
         className={`rounded-md border-b-2 px-5 py-2 text-3xl font-semibold text-white placeholder:font-semibold placeholder:text-gray-500`}
         placeholder="Title"
         onChangeText={(text: string) => setNote({ ...Note, title: text })}
         value={Note.title}
-        style={{ borderColor: Note.color, backgroundColor: Note.color + '20' }}
+        style={{ borderColor: Note.color }}
       />
-        <View className="flex py-2 flex-row w-full items-center justify-between px-5" style={{backgroundColor: Note.color + '20'}}>
+        <View className="flex py-2 flex-row w-full items-center justify-between px-5">
           <View className='flex flex-row items-center gap-x-2'>
           <TouchableOpacity onPress={() => setShowColorModal(true)}>
             <FontAwesome
@@ -93,18 +95,21 @@ export const NoteModal = ({
             </TouchableOpacity>
             </View>
         </View>
-      {/* </View> */}
-      <View className="flex h-[85%] w-full px-2">
-        
+      </View>
+      
+      <View className={`flex w-full absolute bottom-0 top-[7rem]`}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <TextInput
             autoFocus={false}
             multiline={true}
             placeholder="Cook your idea"
             textAlignVertical="top"
-            className="bg-[#0F0F0F h-full w-full bg-[#1A222D] text-xl text-white placeholder:text-gray-500"
+            className="bg-[#0F0F0F h-full px-3 w-full text-xl text-white placeholder:text-gray-500"
+            style={{ backgroundColor: Note.color + '05' }}
             onChange={(e) => setNote({ ...Note, content: e.nativeEvent.text })}
             value={Note.content}
           />
+          </KeyboardAvoidingView>
       </View>
     </View>
   );
