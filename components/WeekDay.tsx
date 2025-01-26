@@ -23,7 +23,7 @@ export const WeekDay = ({ day, index, setSelectedDate, selectedDate, translateX,
         translateX.value = selectedDate < day.milisecond ? SCREEN_WIDTH: -SCREEN_WIDTH;
         translateX.value = withTiming(0, { duration: 300 });
         setSelectedDate(day.milisecond)}}
-      className={`flex w-[4rem] flex-col items-center justify-center gap-y-2 rounded-[2rem] py-4 ${selectedDate === day.milisecond ? 'bg-['+color+']': ''}`}
+      className={`flex w-full h-11/12 flex-col items-center justify-center gap-y-2 rounded-[2rem] py-2 ${selectedDate === day.milisecond ? 'bg-['+color+']': ''}`}
       key={index}
       style={{backgroundColor: selectedDate === day.milisecond ? color : '#0F0F0F'}}>
       <Text

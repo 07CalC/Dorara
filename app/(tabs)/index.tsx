@@ -1,4 +1,4 @@
-import { Dimensions, Modal, ScrollView, ToastAndroid, View } from 'react-native';
+import { Dimensions, Modal, ScrollView, View } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -273,22 +273,30 @@ export default function index() {
         <ScrollView
           stickyHeaderHiddenOnScroll
           showsHorizontalScrollIndicator={false}
-          onMomentumScrollEnd={(e) => {
+          onScrollEndDrag={(e) => {
             if (e.nativeEvent.contentOffset.x > 0) {
               weekTranslateX.value = SCREEN_WIDTH;
               weekTranslateX.value = withTiming(0, { duration: 300 });
               setSelectedWeek(selectedWeek + 1);
-            } else if (e.nativeEvent.contentOffset.x < 0) {
+            } else if (e.nativeEvent.contentOffset.x == 0) {
               weekTranslateX.value = -SCREEN_WIDTH;
               weekTranslateX.value = withTiming(0, { duration: 300 });
               setSelectedWeek(selectedWeek - 1);
             }
           }}
-          className=" flex h-[15%] flex-row"
-          horizontal={true}>
-          <View className="w-max-screen mt-2 flex flex-row items-center justify-center px-[0.05rem]">
+          className="flex h-[15%] "
+          horizontal={true}
+          centerContent={true}
+          contentContainerStyle={{
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          pagingEnabled={true}
+          >
+          <View className="w-[98vw] mt-2 flex flex-row items-center justify-center">
             {currentWeekDays.map((day, index) => {
               return (
+                <View key={index} style={{ width: SCREEN_WIDTH / 7.5 }}>
                 <WeekDay
                   key={index}
                   day={day}
@@ -300,6 +308,7 @@ export default function index() {
                   todayDate={parseInt(moment(todayDate).startOf('day').format('x'))}
                   color={color}
                 />
+                </View>
               );
             })}
           </View>

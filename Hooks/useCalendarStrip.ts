@@ -17,6 +17,8 @@ export type useCalendarStrip = {
     currentWeekDays: dates[],
     currentMonth: string,
     currentYear: number,
+    nextWeekDays: dates[],
+    prevWeekDays: dates[]
 }
 
 
@@ -26,6 +28,8 @@ export const useCalendarStrip = () => {
     const [selectedDate, setSelectedDate] = useState<number>(parseInt(moment().startOf('day').format('x')));
     const [selectedWeek, setSelectedWeek] = useState<number>(moment().isoWeek());
     const [currentWeekDays, setCurrentWeekDays] = useState<dates[]>(getISOWeekDates(selectedWeek));
+    const [nextWeekDays, setNextWeekDays] = useState<dates[]>(getISOWeekDates(selectedWeek + 1));
+    const [prevWeekDays, setPrevWeekDays] = useState<dates[]>(getISOWeekDates(selectedWeek - 1));
     const [currentMonth, setCurrentMonth] = useState<string>(new Intl.DateTimeFormat('en-US', { month: 'long' }).format(selectedDate));
     const [currentYear, setCurrentYear] = useState<number>(parseInt(new Intl.DateTimeFormat('en-US', { year: 'numeric' }).format(selectedDate)));
 
@@ -42,6 +46,8 @@ export const useCalendarStrip = () => {
       
       useEffect(() => {
         setCurrentWeekDays(getISOWeekDates(selectedWeek));
+        setNextWeekDays(getISOWeekDates(selectedWeek + 1));
+        setPrevWeekDays(getISOWeekDates(selectedWeek - 1));
       }, [selectedWeek]);
 
       useEffect(() => {
@@ -58,8 +64,9 @@ export const useCalendarStrip = () => {
           setSelectedWeek,
           currentWeekDays,
           currentMonth,
-          currentYear
-
+          currentYear,
+          nextWeekDays,
+          prevWeekDays
       }
       
       

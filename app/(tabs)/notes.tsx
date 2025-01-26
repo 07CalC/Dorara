@@ -117,7 +117,7 @@ export default function notes(){
     getNotes();
   }, []);
   return (
-    <View className="p- flex h-screen w-full flex-col items-center bg-[#0F0F0F]">
+    <View className="p-2 flex h-screen w-full flex-col items-center bg-[#0F0F0F]">
       <Modal
         animationType="slide"
         visible={showNote}

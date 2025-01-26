@@ -60,7 +60,7 @@ export default function journal() {
     fetchJournalByDate();
   }, [selectedDate]);
   return (
-    <View className="flex h-screen w-full flex-col py-2" style={{backgroundColor: '#1A1A1A'}}>
+    <View className="flex h-screen w-screen gap-y-3 flex-col py-2" style={{backgroundColor: '#1A1A1A'}}>
       <Modal transparent={true} visible={showCalendar} animationType="slide">
         <CalendarModal
          color={color}
@@ -72,9 +72,9 @@ export default function journal() {
           setSelectedWeek={setSelectedWeek}
         />
       </Modal>
-      <View className="flex h-[3rem] w-full flex-row items-center justify-between px-2">
+      <View className="flex w-full flex-row items-center justify-between px-2">
         <TouchableOpacity onPress={() => setShowCalendar(true)}>
-          <Text className="text-2xl font-semibold" style={{color: color}}>
+          <Text className="text-2xl font-semibold px-2" style={{color: color}}>
             {moment(selectedDate).format('dddd, DD MMMM YYYY')}
           </Text>
         </TouchableOpacity>
@@ -88,9 +88,8 @@ export default function journal() {
         )}
       </View>
       <KeyboardAvoidingView behavior="padding" style={{ flex: 1}}>
-        <View className="flex mt-[3rem] h-[87%] w-full flex-row  px-2">
+        <View className="flex h-[95%] w-full flex-row px-3">
           <TextInput
-            autoFocus={false}
             multiline={true}
             placeholder="whats on your mind"
             textAlignVertical="top"
@@ -105,7 +104,7 @@ export default function journal() {
                 size={30}
                 color="black"
                 style={{backgroundColor: color}}
-                className={`absolute bottom-5 right-2 z-10 rounded-full p-3 px-4`}
+                className={`absolute bottom-8 right-2 rounded-full p-3 px-4`}
               />
             </TouchableOpacity>
           )}
