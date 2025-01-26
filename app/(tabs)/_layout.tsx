@@ -1,6 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
-import { Provider } from 'react-native-paper';
 
 export default function TabsLayout() {
   return (

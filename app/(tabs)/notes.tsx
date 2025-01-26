@@ -117,7 +117,7 @@ export default function notes(){
     getNotes();
   }, []);
   return (
-    <View className="p-2 flex h-screen w-full flex-col items-center bg-[#0F0F0F]">
+    <View className="p-2 flex h-screen w-full flex-col items-center justify-center bg-[#0F0F0F]">
       <Modal
         animationType="slide"
         visible={showNote}
@@ -193,7 +193,7 @@ export default function notes(){
           )}
         </View>
       </View>
-      <View className="h-[85%] w-full">
+      <View className="h-[85%] w-full flex items-center justify-center">
         {filteredNotes.length === 0 && <NoDataFound />}
         {filteredNotes.length > 0 && (
           <RenderNotes setNote={setNote} notesList={filteredNotes} setShowNote={setShowNote} />

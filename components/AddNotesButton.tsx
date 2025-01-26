@@ -24,7 +24,7 @@ export const AddNotesButton = ({ setShowNote, setNote, color }: props) => {
           });
           setShowNote(true);
         }}
-        className={`bottom-[6.5rem] left-44 flex h-20 w-20 items-center justify-center rounded-full p-5`} style={{backgroundColor: color}}>
+        className={`bottom-[100%] left-[30%] absolute flex h-20 w-20 items-center justify-center rounded-full p-5`} style={{backgroundColor: color}}>
         <FontAwesome
           className="flex items-center justify-center text-center"
           name="plus"

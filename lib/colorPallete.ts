@@ -1,10 +1,6 @@
-
-
-
 export type ColorPallete = {
-    color: string
-}
-
+  color: string;
+};
 
 export const colorPallete: ColorPallete[] = [
   // Color 1
@@ -145,5 +141,5 @@ export const colorPallete: ColorPallete[] = [
   { color: '#66BB6A' },
   { color: '#81C784' },
   { color: '#A5D6A7' },
-  { color: '#C8E6C9' }
-]
+  { color: '#C8E6C9' },
+];

@@ -1,13 +1,14 @@
-import { Image, Text, View } from 'react-native';
+import { Image, View } from 'react-native';
 
 export const NoDataFound = () => {
   return (
-    <View className="flex h-full flex-col items-center  justify-center self-center">
+    <View className="flex w-full flex-col items-center justify-center">
       <Image
         source={require('../assets/notFound.png')}
-        className="h-96 w-96 items-center justify-center"
+        className="w-full"
+        resizeMode='contain'
       />
-      <Text className="text-3xl font-bold text-white">Nothing Here</Text>
+      
     </View>
   );
 };
