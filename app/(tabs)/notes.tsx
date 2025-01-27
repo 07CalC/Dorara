@@ -21,7 +21,7 @@ export default function notes(){
   const [notesList, setNotesList] = useState<Note[]>([]);
   const [showColorModal, setShowColorModal] = useState<boolean>(false);
   const [showTagEditorModal, setShowTagEditorModal] = useState<boolean>(false);
-  const [tempTag, setTemptTag] = useState<string>('');
+  const [tempTag, setTempTag] = useState<string>('');
   const [query, setQuery] = useState<string>('');
   const [filteredNotes, setFilteredNotes] = useState<Note[]>([]);
   const [note, setNote] = useState<Note>({
@@ -171,23 +171,23 @@ export default function notes(){
           setTag={(tag: string | undefined) => setNote({ ...note, tag: tag })}
           tag={note.tag}
           tempTag={tempTag}
-          setTempTag={setTemptTag}
+          setTempTag={setTempTag}
         />
       </Modal>
 
       <View className="flex h-[8%] w-11/12 flex-row items-center justify-center">
         <View
           style={{ borderColor: '#9ca3af' }}
-          className="flex h-2/3 w-full flex-row items-center gap-x-2 rounded-full border bg-[#1e1e1e] p-1 px-4 placeholder:font-bold">
+          className="flex h-4/5 w-full flex-row items-center gap-x-2 rounded-full border bg-[#1e1e1e] px-4 placeholder:font-bold">
           <FontAwesome name="search" size={20} className="w-[5%]" color={'#9ca3af'} />
           <TextInput
             value={query}
             onChangeText={setQuery}
-            className="w-[88%] text-gray-400 placeholder:text-gray-400"
+            className="w-[85%] text-lg text-gray-400 placeholder:text-gray-400"
             placeholder="Search"
           />
           {query !== '' && (
-            <TouchableOpacity className="mr-2 w-[5%]" onPress={() => setQuery('')}>
+            <TouchableOpacity className="mr-3 w-[5%]" onPress={() => setQuery('')}>
               <FontAwesome name="close" size={20} color={color} />
             </TouchableOpacity>
           )}
@@ -199,7 +199,7 @@ export default function notes(){
           <RenderNotes setNote={setNote} notesList={filteredNotes} setShowNote={setShowNote} />
         )}
       </View>
-      <AddNotesButton color={color} setNote={setNote} setShowNote={setShowAddNote} />
+      <AddNotesButton setTempTag={setTempTag} color={color} setNote={setNote} setShowNote={setShowAddNote} />
     </View>
   );
 }

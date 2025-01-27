@@ -6,10 +6,11 @@ import { Note } from '~/lib/types';
 type props = {
   setNote: React.Dispatch<React.SetStateAction<Note>>;
   setShowNote: React.Dispatch<React.SetStateAction<boolean>>;
-  color: string
+  color: string;
+  setTempTag: React.Dispatch<React.SetStateAction<string>>
 };
 
-export const AddNotesButton = ({ setShowNote, setNote, color }: props) => {
+export const AddNotesButton = ({ setShowNote, setNote, color, setTempTag }: props) => {
   return (
     <View className={`flex-1`}>
       <TouchableOpacity
@@ -21,7 +22,9 @@ export const AddNotesButton = ({ setShowNote, setNote, color }: props) => {
             date: 0,
             tag: 'tag',
             color: color,
+            
           });
+          setTempTag('')
           setShowNote(true);
         }}
         className={`bottom-[100%] left-[30%] absolute flex h-20 w-20 items-center justify-center rounded-full p-5`} style={{backgroundColor: color}}>

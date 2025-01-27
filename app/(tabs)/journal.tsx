@@ -72,28 +72,33 @@ export default function journal() {
           setSelectedWeek={setSelectedWeek}
         />
       </Modal>
-      <View className="flex w-full flex-row items-center justify-between px-2">
-        <TouchableOpacity onPress={() => setShowCalendar(true)}>
-          <Text className="text-2xl font-semibold px-2" style={{color: color}}>
-            {moment(selectedDate).format('dddd, DD MMMM YYYY')}
+      <View className={`flex w-full ${selectedDate === parseInt(moment().startOf('day').format('x')) ? 'justify-center': 'justify-between'} flex-row items-center justify-center px-4 border-b py-2`} style={{borderColor: color}}>
+        
+        <TouchableOpacity onPress={() => setShowCalendar(true)} className='flex flex-row gap-x-2'>
+          <FontAwesome name='calendar' size={25} color={color} />
+          <Text className="text-2xl font-semibold" style={{color: selectedDate === parseInt(moment().startOf('day').format('x')) ? color : color + '90'}}>
+
+            {moment(selectedDate).format('ddd, DD MMMM YYYY')}
           </Text>
         </TouchableOpacity>
         {selectedDate !== parseInt(moment().startOf('day').format('x')) && (
           <TouchableOpacity
             onPress={() => setSelectedDate(parseInt(moment().startOf('day').format('x')))}>
-            <Text style={{backgroundColor: color}} className="rounded-lg px-4 py-2 text-sm font-semibold text-[#0F0F0F]">
-              Today
+              
+            <Text style={{backgroundColor: color}} className="rounded-lg px-4 py-2 flex flex-row justify-center items-center text-sm font-semibold text-[#0F0F0F]">
+            <FontAwesome name='arrow-right' size={13} />
+            {' '}Today
             </Text>
           </TouchableOpacity>
         )}
       </View>
       <KeyboardAvoidingView behavior="padding" style={{ flex: 1}}>
-        <View className="flex h-[95%] w-full flex-row px-3">
+        <View className="flex mt-2 h-[95%] w-full flex-row px-2 bg-">
           <TextInput
             multiline={true}
             placeholder="whats on your mind"
             textAlignVertical="top"
-            className="bg-[#0F0F0F bottom-5 h-full w-full text-lg text-white placeholder:text-gray-500"
+            className="bg-[#0F0F0F bottom-3 h-full w-full text-lg text-white placeholder:text-gray-500"
             onChangeText={(text) => setJournal({ ...journal, content: text })}
             value={journal?.content}
           />
