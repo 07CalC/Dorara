@@ -7,8 +7,11 @@
 ## 📌 Features
 
 ✔️ To-Do List – Keep track of your daily tasks and never miss a thing.
+
 📝 Notes – Jot down ideas, reminders, and important thoughts.
+
 📖 Journal – Reflect on your day, write freely, and track progress.
+
 🌙 Dark Mode – Work comfortably, day or night.
 
 ## 🛠 Tech Stack
